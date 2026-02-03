@@ -1,0 +1,550 @@
+﻿
+.carousel-img {
+    height: 420px;
+    object-fit: cover;
+}
+
+.text-secondary {
+   
+    color: var(--bs-gray-900) !important;
+}
+
+
+/* Fullscreen carousel */
+.carousel-inner,
+.carousel-item,
+.carousel-img {
+    height: 100vh;
+    object-fit: cover;
+}
+
+
+/* Colors */
+:root {
+    --gov-green: #0c4b33;
+    --gov-dark: #083828;
+}
+
+/* Top Utility Bar */
+.top-utility-bar {
+    background: #5b84a7;
+    font-size: 13px;
+    padding: 5px 0;
+    padding: 20px;
+}
+
+    .top-utility-bar a {
+        margin-left: 10px;
+        color: #000;
+        text-decoration: none;
+    }
+
+/* Header */
+.main-header {
+    background: #fff;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.brand-logo {
+    width: 150px;
+}
+
+/* Navbar */
+.tourism-navbar {
+    background: var(--gov-green);
+}
+
+    .tourism-navbar .nav-link {
+        color: #fff !important;
+        padding: 12px 18px;
+        font-weight: 500;
+    }
+
+        .tourism-navbar .nav-link:hover {
+            background: var(--gov-dark);
+        }
+
+
+
+/* Footer */
+.footer {
+    background: #1b1b1b;
+}
+
+.footer-divider {
+    border-color: #555;
+}
+
+.footer-links li {
+    margin-bottom: 6px;
+}
+
+
+/* Navbar Transparent on Top */
+.navbar {
+    background: #264d6e !important;
+    transition: background-color .3s ease-in-out;
+}
+
+
+    /* Solid background after scroll */
+    .navbar.scrolled {
+        background: #264d6e !important;
+    }
+
+
+.navbar-brand img.brand-logo {
+    height: 45px;
+    object-fit: contain;
+}
+
+
+.nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #fff !important;
+    margin-left: 20px;
+}
+
+
+/* Logo overlay inside carousel */
+.carousel-overlay {
+    position: absolute;
+    top: 36px;
+    left: 66px;
+    z-index: 50;
+}
+
+
+.overlay-logo {
+    width: 140px;
+    filter: drop-shadow(0px 2px 6px rgba(0,0,0,0.4));
+}
+
+
+/* For mobile */
+@media (max-width: 768px) {
+    .overlay-logo {
+        width: 100px;
+    }
+
+    .nav-link {
+        margin-left: 10px;
+    }
+
+    .navbar-brand span {
+        font-size: 1rem;
+    }
+
+    .utility-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: absolute;
+        left: 35px;
+    }
+    .utility-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+}
+
+/* For mobile */
+@media (max-width: 568px) {
+    .carousel-inner, .carousel-item, .carousel-img {
+        height: 50vh;
+        object-fit: cover;
+    }
+    .social-icons
+    {
+        display:none;
+    }
+
+ 
+}
+
+@media only screen and (min-width: 360px) and (max-width: 480px) {
+    /* Typical 5-inch phone range */
+    .utility-right {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        position: absolute;
+        left: 35px;
+    }
+
+
+    .utility-flex
+    Specificity: (0,1,0) {
+        display: flex;
+        /* justify-content: space-between; */
+        align-items: center;
+    }
+    .top-utility-bar {
+        background: #5b84a7;
+        font-size: 13px;
+        padding: 6px 0;
+        border-bottom: 1px solid #ddd;
+        padding: 20px;
+    }
+    .goog-te-combo {
+        margin-left: -25px;
+    }
+}
+.text.collapsed {
+    max-height: 60vh !important;
+    overflow: hidden;
+}
+    /*Old*/
+body {
+    padding-top: 2px;
+    padding-bottom: 2px;
+  /*  background: #dadada42;*/
+}
+
+    /* Set padding to keep content from hitting the edges */
+    .body-content {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* Set width on the form input elements since they're 100% wide by default */
+    input,
+    select,
+    textarea {
+        max-width: 280px;
+    }
+
+    /* styles for validation helpers */
+    .field-validation-error {
+        color: #b94a48;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+
+    input.input-validation-error {
+        border: 1px solid #b94a48;
+    }
+
+    input[type="checkbox"].input-validation-error {
+        border: 0 none;
+    }
+
+    .validation-summary-errors {
+        color: #b94a48;
+    }
+
+    .validation-summary-valid {
+        display: none;
+    }
+
+
+
+.tourism-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .2s ease, box-shadow .2s ease;
+    padding-top: 8px;
+}
+
+
+.place-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+
+
+
+/* ===== OFFCANVAS MOBILE MENU (GOVT STYLE) ===== */
+
+.offcanvas {
+    background: #111a17;
+    color: #fff;
+    width: 250px !important;
+}
+
+
+.offcanvas-header {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.mobile-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .mobile-menu li {
+        border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 15px 20px;
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+        .mobile-menu a:hover {
+            background: var(--gov-dark);
+        }
+
+.navbar-toggler {
+    margin-left: auto;
+}
+
+/* Hide offcanvas toggle on desktop */
+@media (min-width: 992px) {
+    .navbar-toggler {
+        display: none;
+    }
+}
+
+/* ===== HEADER STRUCTURE ===== */
+
+.main-header {
+    background: #fff;
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.header-flex {
+    position: relative; /* REQUIRED for centering */
+    display: flex;
+    align-items: center;
+}
+
+/* Left Brand (UNCHANGED LOOK) */
+.left-brand {
+    z-index: 2;
+}
+
+/* ===== CENTER LOGO STYLING ===== */
+
+#CenterLogo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    line-height: 1.2;
+}
+
+    #CenterLogo img {
+        height: 50px;
+        margin-bottom: 4px;
+    }
+
+    #CenterLogo h2 {
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+        color: #0c4b33; /* govt green */
+        letter-spacing: 0.5px;
+    }
+
+    #CenterLogo p {
+        margin: 0;
+        font-size: 12px;
+        color: #555;
+    }
+
+/* ===== RESPONSIVE FIX ===== */
+@media (max-width: 991px) {
+    #CenterLogo {
+        display: none; /* Govt sites usually hide emblem on mobile */
+    }
+}
+
+
+/* ===== UTILITY BAR ===== */
+
+.top-utility-bar {
+    background: #5b84a7;
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+}
+
+.utility-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gov-text {
+    font-weight: 500;
+    color: #000;
+}
+
+/* Right side container */
+.utility-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Social Icons */
+.social-icons a {
+    color: #333;
+    font-size: 14px;
+    margin-right: 6px;
+ 
+}
+
+
+/* ===== WATERMARK FIX (WORKING) ===== */
+
+.main-watermark {
+    position: relative;
+    z-index: 1;
+}
+
+    /* Watermark layer */
+    .main-watermark .watermark-bg {
+        position: absolute;
+        inset: 0;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 800px;
+        opacity: 0.05; /* subtle watermark */
+        pointer-events: none; /* clickable content */
+        z-index: 0;
+    }
+
+    /* Ensure content is above watermark */
+    .main-watermark > *:not(.watermark-bg) {
+        position: relative;
+        z-index: 1;
+    }
+
+
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    font-family: "Segoe UI", sans-serif;
+}
+
+/* Arrow label */
+.label-arrow {
+    position: relative;
+    background: #f36f21;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 8px 0 0 8px;
+    z-index: 2;
+}
+
+    .label-arrow::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: -24px;
+        border-top: 24px solid transparent;
+        border-bottom: 24px solid transparent;
+        border-left: 24px solid #f36f21;
+    }
+
+/* White bar */
+.header-bar {
+    flex: 1;
+    height: 48px;
+    background: #fff;
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    margin-left: -8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+/* Scrolling container */
+.scroll-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+/* Right-to-left scrolling text */
+.scroll-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scroll-rtl 18s linear infinite;
+    font-size: 16px;
+    color: #333;
+}
+
+@keyframes scroll-rtl {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+.scroll-text:hover {
+    animation-play-state: paused;
+}
+
+.carousel-flash {
+    position: absolute;
+    inset: 0;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+    .carousel-flash.active {
+        animation: flashEffect 0.3s ease-in-out;
+    }
+
+@keyframes flashEffect {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.carousel-item img {
+    animation: none;
+}
+
+.carousel-item.active img {
+    animation: imageFlash 0.4s ease-in-out;
+}
+
+@keyframes imageFlash {
+    0% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(2);
+    }
+
+    100% {
+        filter: brightness(1);
+    }
+}

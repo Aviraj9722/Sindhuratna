@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Umbraco.Cms.Web.Common.PublishedModels.District>
+
+@{
+    Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
+}
+<h1>District List</h1>
+
+<ul>
+    @foreach (var d in Model)
+    {
+        <li>
+            <strong>@d.Name</strong><br />
+            Population: @d.DistrictName<br />
+            @d.Description
+        </li>
+    }
+</ul>

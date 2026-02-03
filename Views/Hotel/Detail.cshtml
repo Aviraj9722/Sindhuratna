@@ -1,0 +1,143 @@
+﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+@{
+    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
+    // var homePage = root as Root;
+
+    Hotel HotelPage = ViewBag.HotelPage as Hotel;
+}
+@{
+    Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
+}
+
+<style>
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .info-item {
+        padding: 15px;
+        background: #fafafa;
+        border-radius: 6px;
+        border: 1px solid #e0e0e0;
+    }
+    /* Amenities */
+    .amenities-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .amenities-list li {
+            background: #eef2f5;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    /* Booking */
+    .booking {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .price {
+        font-size: 22px;
+        font-weight: bold;
+        color: #2e7d32;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        background: #1976d2;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 6px;
+        font-weight: bold;
+    }
+
+    .rating {
+        font-size: 18px;
+        color: #ff9800;
+    }
+</style>
+
+
+<div class="container">
+
+
+    <!-- Hotel Name -->
+    <h1>@HotelPage.HotelName</h1>
+    <p><strong>Stay Type:</strong> @HotelPage.StayType</p>
+
+
+    <!-- Banner Images -->
+    <div class="banner">
+        @foreach (var item in HotelPage.Images)
+        {
+            <img src="@item.LocalCrops.Src" alt="Hotel Image 1" width="300px">
+        }
+        
+       
+    </div>
+
+
+    <!-- Basic Information -->
+    <div class="box">
+        <h2>Hotel Information</h2>
+        <div class="info-grid">
+            <div class="info-item"><strong>Address:</strong><br> @HotelPage.Address</div>
+            <div class="info-item"><strong>Contact Number:</strong><br> @HotelPage.ContactNumber</div>
+            <div class="info-item"><strong>Price Range:</strong><br> @HotelPage.PriceRange</div>
+            <div class="info-item"><strong>Rating:</strong><br> <span class="rating">★ (@HotelPage.Rating/5)</span></div>
+        </div>
+    </div>
+
+
+    <!-- Amenities -->
+    <div class="box">
+        <h2>Amenities</h2>
+        
+        <ul class="amenities-list">
+            @foreach (var item in HotelPage.Amenities)
+            {
+                <li>@item</li>
+                
+            }
+        </ul>
+    </div>
+
+
+    <!-- Location -->
+    <div>
+        <h2>Location</h2>
+          @if (!string.IsNullOrEmpty(HotelPage?.Location))
+            {
+                var mapUrl = $"https://www.google.com/maps/search/?api=1&query={HotelPage.Location.Replace(" ", "")}";
+
+                <a href="@mapUrl"
+                   target="_blank"
+                   class="" style="text-align:left">
+                    <i class="fa-solid fa-map-location-dot me-1"></i>स्नकाशावर पहा
+                </a>
+            }
+       
+    </div>
+
+
+    <!-- Booking Section -->
+    <div class="box booking">
+        <div>
+            <p class="price">₹@HotelPage.PriceRange / night</p>
+        </div>
+        <a href="@HotelPage.BookingLink" class="btn">Book Now</a>
+    </div>
+
+
+</div>

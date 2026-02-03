@@ -1,0 +1,432 @@
+﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+@{
+    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
+    var homePage = root as Root;
+
+}
+@{
+    Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
+}
+<style>
+
+    .carousel-inner, .carousel-item, .carousel-img {
+        height: 60vh !important;
+        object-fit: cover;
+    }
+
+    @@media only screen and (min-width: 360px) and (max-width: 480px) {
+        .carousel-overlay {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            z-index: 50;
+        }
+
+        .carousel-inner, .carousel-item, .carousel-img {
+            height: 40vh !important;
+            object-fit: cover;
+        }
+    }
+
+    .leaders-section {
+        max-width: 520px;
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .leader-card {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    }
+
+        .leader-card img {
+            width: 70px;
+            height: 70px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .leader-card h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .leader-card p {
+            margin: 4px 0 0;
+            font-size: 14px;
+            color: #444;
+        }
+
+    /* Background colors */
+    .pink {
+        background: #fdecec;
+    }
+
+    .green {
+        background: #e9fbf6;
+    }
+
+    .purple {
+        background: #efefff;
+    }
+
+    .peach {
+        background: #fff1eb;
+    }
+
+    .blue {
+        background: #eaf4fb;
+    }
+    .tourism-card-Head
+    {
+        height:60vh !important;
+        overflow: auto;
+        /* Hide scrollbar – Chrome, Edge, Safari */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE & Edge (legacy) */
+    }
+    .tourism-card {
+       
+        overflow: auto;
+        /* Hide scrollbar – Chrome, Edge, Safari */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE & Edge (legacy) */
+    }
+
+        .tourism-card::-webkit-scrollbar {
+            display: none; /* Chrome, Safari */
+        }
+
+    h2 {
+        font-size: 28px;
+        font-weight: bold;
+        position: relative;
+    }
+
+        h2 .orange {
+            color: #f36f21;
+        }
+
+        h2 .underline {
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #f36f21;
+            margin-top: 5px;
+        }
+
+    .text {
+        color: #777;
+        line-height: 1.7;
+        margin-top: 15px;
+        transition: max-height 0.3s ease;
+    }
+
+      
+
+    .read-more {
+        display: inline-block;
+        margin-top: 10px;
+        color: #f36f21;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .text.collapsed {
+        max-height: 40vh !important;
+        overflow: hidden;
+    }
+</style>
+<script>
+        const btn = document.getElementById("toggleBtn");
+        const text = document.getElementById("tourismText");
+
+        btn.addEventListener("click", () => {
+        text.classList.toggle("collapsed");
+
+        btn.textContent = text.classList.contains("collapsed")
+        ? "Read More"
+        : "Read Less";
+        });
+</script>
+<div class="row">
+    <div class="header-wrapper">
+  <div class="label-arrow">
+    सध्याचे अपडेट्स
+  </div>
+
+ <div class="header-bar">
+    <div class="scroll-container">
+      <div class="scroll-text">
+        हे एक नमुना अपडेट टेक्स्ट आहे • नवीन पर्यटन माहिती • शासन निर्णय • महत्त्वाच्या घोषणा
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="col-sm-4 mt-4">
+        <div class="leaders-section">
+
+            <div class="leader-card pink">
+                <img src="https://via.placeholder.com/70" alt="Devendra Fadnavis">
+                <div>
+                    <h3>Shri. Devendra Fadnavis</h3>
+                    <p>Hon'ble Chief Minister</p>
+                </div>
+            </div>
+
+            <div class="leader-card green">
+                <img src="https://via.placeholder.com/70" alt="Eknath Shinde">
+                <div>
+                    <h3>Shri. Eknath Shinde</h3>
+                    <p>Hon'ble Deputy Chief Minister</p>
+                </div>
+            </div>
+
+            <div class="leader-card purple">
+                <img src="https://via.placeholder.com/70" alt="Ajit Pawar">
+                <div>
+                    <h3>Shri. Ajit Pawar</h3>
+                    <p>Hon'ble Deputy Chief Minister</p>
+                </div>
+            </div>
+
+            <div class="leader-card peach">
+                <img src="https://via.placeholder.com/70" alt="Shambhuraj Desai">
+                <div>
+                    <h3>Shri. Shambhuraj Desai</h3>
+                    <p>Hon. Minister (Tourism)</p>
+                </div>
+            </div>
+
+            <div class="leader-card blue">
+                <img src="https://via.placeholder.com/70" alt="Indranil Naik">
+                <div>
+                    <h3>Shri. Indranil Naik</h3>
+                    <p>Hon MoS (Tourism)</p>
+                </div>
+            </div>
+
+        </div>
+        <hr />
+        <h3 class="text-primary fw-bold mb-4" style="border-bottom: 1px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
+            <i class="fa-solid fa-hand-holding-heart me-2"></i> वैशिष्ट्यपूर्ण योजना
+        </h3>
+
+        <div class="row">
+            @foreach (var block in homePage.SelectSchemes)
+            {
+                var schemeItem = block.Content.Value<IPublishedElement>("selectScheme");
+
+                if (schemeItem != null)
+                {
+                    var obj = schemeItem as GovernmentScheme;
+                    var applyLinks = obj?.ApplyLink?.ToList() ?? new List<Umbraco.Cms.Core.Models.Link>();
+                    var applyUrl = applyLinks.FirstOrDefault()?.Url ?? "#";
+
+                    var audiences = obj?.TargetAudience?.ToList() ?? new List<string>();
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 mb-4">
+                        <div class="card tourism-card h-100 shadow-sm border-0">
+                            <div class="card-body d-flex flex-column">
+
+
+
+                                @* Scheme Title *@
+                                <h5 class="card-title fw-bold text-dark">
+                                    @obj?.Name
+                                    @* Scheme Type Badge *@
+                                    @if (!string.IsNullOrEmpty(obj?.SchemeType))
+                                    {
+                                        <span class="badge bg-warning text-dark rounded-pill mb-2">
+                                            <i class="fa-solid fa-award me-1"></i>@obj.SchemeType
+                                        </span>
+                                    }
+                                </h5>
+
+                                @* Short Description *@
+                                            @if (!string.IsNullOrEmpty(obj?.ShortDescription))
+                                {
+                                    <p class="text-secondary small">
+                                        @obj.ShortDescription
+                                    </p>
+                                }
+
+                                @* Target Audience List *@
+                                @if (audiences.Any())
+                                {
+                                    <p class="text-muted small mb-2">
+
+                                        <i class="fa-solid fa-users me-1"> लाभार्थी:</i>
+                                        @string.Join(", ", audiences)
+                                    </p>
+                                }
+
+                                <div class="d-flex gap-2 mt-2">
+
+                                    @* Apply Button *@
+                                            @if (!string.IsNullOrEmpty(applyUrl) && applyUrl != "#")
+                                    {
+                                        <a href="@applyUrl"
+                                           target="_blank"
+                                           class="btn btn-sm btn-success">
+                                            <i class="fa-solid fa-paper-plane me-1"></i> आता अर्ज करा
+                                        </a>
+                                    }
+
+                                    @* Read More *@
+                                    <a href="@obj?.ApplyLink"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fa-solid fa-circle-info me-1"></i> अधिक वाचा
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+    <div class="col-sm-8">
+        @Html.Raw(homePage.Description)
+
+        <div class="col-12 mt-4">
+            <h3 class="fw-bold mb-4" style="border-bottom: 2px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
+                <i class="fa-solid fa-hotel me-2"></i> प्रमुख निवासस्थाने
+            </h3>
+
+            <div class="row">
+                @foreach (var block in homePage.SelectHotels)
+                {
+                    var hotelItem = block.Content.Value<IPublishedElement>("selectHotel");
+
+                    if (hotelItem != null)
+                    {
+                        var obj = hotelItem as Hotel;
+                        var firstImage = obj?.Images?.FirstOrDefault()?.LocalCrops?.Src;
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                            <div class="card tourism-card h-100 shadow-sm">
+
+                                @if (!string.IsNullOrEmpty(firstImage))
+                                {
+                                    <img src="@firstImage"
+                                         class="card-img-top place-img"
+                                         alt="@obj?.HotelName" />
+                                }
+
+                                <div class="card-body d-flex flex-column">
+
+                                    <span style="width:70px;" class="badge bg-info rounded-pill mb-2">
+                                        <i class="fa-solid fa-bed me-1"></i> Hotel
+                                    </span>
+
+                                    <h5 class="card-title fw-bold text-dark mb-2">
+
+                                        @obj?.HotelName
+                                    </h5>
+
+                                    @if (!string.IsNullOrEmpty(obj?.Address))
+                                    {
+                                        <p class="card-text small text-secondary mb-1">
+                                            <i class="fa-solid fa-location-dot me-1"></i>@obj.Address
+                                        </p>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(obj?.ContactNumber))
+                                    {
+                                        <p class="card-text small text-secondary m-0">
+                                            <i class="fa-solid fa-phone me-1"></i>@obj.ContactNumber
+                                        </p>
+                                    }
+
+                                    @* Google Maps Button *@
+                                    @if (!string.IsNullOrEmpty(obj?.Location))
+                                    {
+                                        var mapUrl = $"https://www.google.com/maps/search/?api=1&query={obj.Location.Replace(" ", "")}";
+
+                                        <a href="@mapUrl"
+                                           target="_blank"
+                                           class="btn btn-sm btn-outline-primary mt-3 w-100">
+                                            <i class="fa-solid fa-map-location-dot me-1"></i> स्थळ नकाशावर पहा
+                                        </a>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <hr />
+    <div class="row mt-4">
+        <h3 class="text-primary fw-bold mb-4" style="border-bottom: 1px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
+            <i class="fa-solid fa-map-location-dot me-2"></i>प्रमुख पर्यटनस्थळे
+        </h3>
+
+        @foreach (var block in homePage.SelectPlaces)
+        {
+            var place = block.Content.Value<IPublishedElement>("selectPlace");
+            if (place != null)
+            {
+                var obj = place as TouristPlace;
+                var firstImage = obj?.Images?.FirstOrDefault()?.LocalCrops?.Src;
+
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                    <div class="card border-0 shadow-sm h-100 tourism-card">
+
+                        @* Image Box *@
+                                    @if (!string.IsNullOrEmpty(firstImage))
+                        {
+                            <img src="@firstImage"
+                                 class="card-img-top place-img"
+                                 alt="@obj?.PlaceName" style="width:100%;height:100px;" />
+                        }
+
+                        <div class="card-body d-flex flex-column">
+
+
+
+                            <h5 class="card-title text-dark fw-semibold mb-2">
+                                @obj?.PlaceName <span class="badge bg-success rounded-pill mb-2">
+                                    <i class="fa-solid fa-location-dot me-1"></i>@obj?.PlaceType
+                                </span>
+                            </h5>
+
+                            <p class="card-text text-secondary small flex-grow-1">
+                                @Html.Raw(obj?.ShortDescription)
+                            </p>
+
+                            @if (!string.IsNullOrEmpty(obj?.Location))
+                            {
+                                <a href="https://www.google.com/maps/search/?api=1&query=@obj.Location.Replace(" ", "")"
+                                   target="_blank"
+                                   class="btn btn-sm btn-outline-primary mt-2 w-100">
+                                    <i class="fa-solid fa-map-location-dot me-1"></i> स्थळ नकाशावर पहा
+                                </a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+
+</div>

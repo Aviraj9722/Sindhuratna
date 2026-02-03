@@ -1,0 +1,222 @@
+﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+@{
+    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
+    // var homePage = root as Root;
+
+    var Hotels = root?
+         .DescendantsOfType("hotel")
+         .OfType<Hotel>()
+         .ToList();
+}
+@{
+    Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
+}
+
+<!-- Bootstrap 5 -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- DataTables -->
+<link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+<!-- Font Awesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<style>
+    .place-thumb {
+        /* width: 70px;
+            height: 70px; */
+        object-fit: cover;
+    }
+
+    @@media (max-width: 768px) {
+        .place-thumb {
+            width: 100%;
+            height: 120px;
+        }
+    }
+</style>
+<div class="container mt-4">
+    <h4 class="mb-3 fw-semibold">
+        <i class="fa-solid fa-hotel text-warning"></i> Hotel Listings
+    </h4>
+
+
+    <div class="row align-items-center">
+        <div class="col-sm-6">
+            <!-- Search -->
+            <input type="text"
+                   id="customSearch"
+                   class="form-control mb-3"
+                   placeholder="Search by hotel, location, amenities...">
+        </div>
+
+        <div class="col-sm-6 d-flex justify-content-end">
+            <select id="sortBy" class="form-select w-auto mb-3">
+                <option value="">Sort By</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="rating-desc">Rating: High → Low</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <!-- Header Row -->
+    <div class="row fw-bold border-bottom py-2 text-muted d-none d-sm-flex">
+
+        <div class="col-md-2">Hotel</div>
+        <div class="col-md-1">Stay Type</div>
+        <div class="col-md-2">Price</div>
+        <div class="col-md-2">Address</div>
+        <div class="col-md-2">Amenities</div>
+        <div class="col-md-1">Rating</div>
+        <div class="col-md-2 text-end">Actions</div>
+    </div>
+
+    <!-- DATA ROWS -->
+    <div id="hotelWrapper">
+
+        @foreach (var item in Hotels)
+        {
+
+            var obj = item as Hotel;
+            var ammenities = obj?.Amenities?.ToList() ?? new List<string>();
+
+            <!-- Row -->
+            <div class="row align-items-center border-bottom py-2 hotel-item"
+                 data-name="@obj.HotelName" data-price="@obj.PriceRange" data-rating="@obj.Rating">
+                <div class="col-md-2 fw-semibold">
+                    <i class="fa-solid fa-hotel text-primary"></i> @obj.HotelName
+                    @if (obj.Images?.FirstOrDefault() is not null)
+                    {
+                        <img src="@obj.Images?.FirstOrDefault()?.LocalCrops.Src"
+                             class="img-fluid rounded shadow-sm place-thumb"
+                             alt="@obj.HotelName">
+                    }
+     
+                </div>
+                <div class="col-md-1">@obj.StayType</div>
+                <div class="col-md-2">@obj.PriceRange</div>
+                <div class="col-md-2">
+                    <i class="fa-solid fa-location-dot"></i> @obj.Address 
+                    @if (!string.IsNullOrEmpty(obj?.Location))
+                    {
+                        var mapUrl = $"https://www.google.com/maps/search/?api=1&query={obj.Location.Replace(" ", "")}";
+
+                        <a href="@mapUrl"
+                           target="_blank"
+                           class="btn btn-sm text-primary w-100" style="text-align:left">
+                            <i class="fa-solid fa-map-location-dot me-1"></i>स्नकाशावर पहा
+                        </a>
+                    }
+                </div>
+                <div class="col-md-2">@string.Join(",", ammenities) </div>
+                <div class="col-md-1 text-warning">
+                    <i class="fa-solid fa-star"></i> @obj.Rating
+                </div>
+                <div class="col-md-2 text-end">
+
+                    <a href="hotel-detail?id=@obj.Id" class="btn btn-sm btn-outline-primary">
+                        View details <i class="fa-solid fa-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+        }
+
+
+    </div>
+
+    <!-- Pagination -->
+    <nav class="mt-3">
+        <ul id="pagination" class="pagination justify-content-end"></ul>
+    </nav>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(function () {
+
+      const itemsPerPage = 3;
+      let currentPage = 1;
+
+      const allItems = $('.hotel-item');
+      let workingItems = allItems;
+
+      function render() {
+        allItems.hide();
+        workingItems
+          .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+          .show();
+      }
+
+      function pagination() {
+        const totalPages = Math.ceil(workingItems.length / itemsPerPage);
+        $('#pagination').empty();
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+          $('#pagination').append(`
+            <li class="page-item ${i === currentPage ? 'active' : ''}">
+              <a class="page-link" href="#">${i}</a>
+            </li>
+          `);
+        }
+      }
+
+      // Pagination click
+      $('#pagination').on('click', 'a', function (e) {
+        e.preventDefault();
+        currentPage = Number($(this).text());
+        render();
+        pagination();
+      });
+
+      // Search
+      $('#customSearch').on('keyup', function () {
+        const term = $(this).val().toLowerCase().trim();
+
+        workingItems = !term
+          ? allItems
+          : allItems.filter(function () {
+              return $(this).text().toLowerCase().includes(term);
+            });
+
+        currentPage = 1;
+        pagination();
+        render();
+      });
+
+      // ✅ SORT (THIS WAS THE BROKEN PART)
+      $('#sortBy').on('change', function () {
+        const val = $(this).val();
+        let sorted = workingItems.toArray();
+
+        if (val === 'price-asc') {
+          sorted.sort((a, b) => $(a).data('price') - $(b).data('price'));
+        }
+        if (val === 'price-desc') {
+          sorted.sort((a, b) => $(b).data('price') - $(a).data('price'));
+        }
+        if (val === 'rating-desc') {
+          sorted.sort((a, b) => $(b).data('rating') - $(a).data('rating'));
+        }
+
+        // 🔥 CRITICAL FIX
+        $('#hotelWrapper').append(sorted);
+        workingItems = $(sorted);
+
+        currentPage = 1;
+        pagination();
+        render();
+      });
+
+      pagination();
+      render();
+    });
+</script>

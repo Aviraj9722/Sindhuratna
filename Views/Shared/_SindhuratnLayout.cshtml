@@ -1,0 +1,358 @@
+﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+@{
+    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
+    var homePage = root as Root;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>सिंधुरत्न समृद्र योजना</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+    <script>
+        /* ---------- FIRST VISIT LANGUAGE SET ---------- */
+        (function () {
+          if (!localStorage.getItem("langSet")) {
+            // First visit → set Marathi
+            document.cookie = "googtrans=/mr/mr;path=/";
+            document.cookie = "googtrans=/mr/mr;path=/;domain=" + location.hostname;
+
+            localStorage.setItem("langSet", "true");
+          }
+        })();
+
+        /* ---------- GOOGLE TRANSLATE INIT ---------- */
+        function googleTranslateElementInit() {
+          new google.translate.TranslateElement(
+            {
+              pageLanguage: 'mr',
+              includedLanguages: 'en,mr',
+              autoDisplay: false
+            },
+            'google_translate_element'
+          );
+        }
+
+        /* ---------- UI FIX ---------- */
+        $(document).ready(function () {
+          setTimeout(function () {
+            $("#google_translate_element").css("margin-top", "-18px");
+            $("body").css("top", "40px");
+          }, 2000);
+        });
+
+
+    </script>
+
+    <script>
+        const carousel = document.getElementById('mainCarousel');
+        const flash = carousel.querySelector('.carousel-flash');
+
+        carousel.addEventListener('slide.bs.carousel', () => {
+            flash.classList.remove('active');
+            void flash.offsetWidth; // restart animation
+            flash.classList.add('active');
+        });
+    </script>
+
+
+    <!-- GOOGLE TRANSLATE SCRIPT -->
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <style>
+     
+        .goog-te-combo {
+            position: absolute;
+            margin-top: -5px;
+        }
+        iframe{
+        display:none;}
+
+       #google_translate_element{
+           margin-top: -18px;
+       }
+
+        /* Show only the language dropdown */
+        #\:0\.targetLanguage select.goog-te-combo {
+            display: inline-block !important;
+        }
+
+      
+        .VIpgJd-ZVi9od-l4eHX-hSRGPd
+        {
+            display:none;
+        }
+        /* Hide "Powered by Google" text and logo */
+        .skiptranslate .goog-te-gadget span,
+        .skiptranslate .goog-logo-link {
+            display: none !important;
+        }
+
+        /* Ensure dropdown remains visible */
+        .skiptranslate select.goog-te-combo {
+            display: inline-block !important;
+        }
+
+        #\:0\.targetLanguage select.goog-te-combo {
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            margin-left: -82px;
+        }
+
+    </style>
+</head>
+
+<body >
+
+
+ 
+
+    <span class="watermark-bg"
+          style="background-image:url('@homePage.Logo?.LocalCrops.Src')"></span>
+
+    <!-- Top Utility Bar -->
+    <div class="top-utility-bar">
+        <div class="container utility-flex">
+
+            <!-- Left Text -->
+            <span class="gov-text">
+                <!-- Social Icons -->
+                <div class="social-icons">
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </span>
+
+            <!-- Right Utilities -->
+            <div class="utility-right col-sm-4">
+
+             <div class="col-sm-6 text-end">
+                    <div id="google_translate_element"></div>
+                   
+             </div>
+
+            <div class="col-sm-6">
+                    <!-- Search -->
+                    <div class="utility-search">
+                        <input type="text" placeholder="Search..." class="form-control-sm" />
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+
+               
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Header -->
+    <header class="main-header" style="background:url('/images/newheaderbackground2.png')">
+        <div class="container header-flex">
+
+            <!-- Left Logo (UNCHANGED) -->
+            <div class="left-brand d-flex align-items-center">
+                <img src="@homePage.Logo?.LocalCrops.Src" class="brand-logo me-3" />
+                <div>
+                    <h5 class="m-0 fw-bold">@homePage.Title</h5>
+                    <small class="text-muted">Official Tourism Information Portal</small>
+                </div>
+            </div>
+
+            <!-- Center Logo -->
+            <div id="CenterLogo">
+                <img src="~/images/satyameva-jayate-642x1024.webp" />
+                <h2>महाराष्ट्र पर्यटन</h2>
+                <p>महाराष्ट्र सरकार</p>
+            </div>
+
+        </div>
+    </header>
+
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg tourism-navbar sticky-top">
+        <div class="container">
+
+            <button class="navbar-toggler text-white" type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#mobileMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mx-auto">
+                  
+                        @foreach (var item in homePage.NavbarLinks)
+                        {
+                            <li class="nav-item"><a class="nav-link" href="@item.Url">@item.Name</a></li>
+                        }
+                  
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Offcanvas Menu -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
+        <div class="offcanvas-header">
+            <img src="@homePage.Logo.LocalCrops.Src" height="50" />
+            <span class="m-0 fw-bold ps-2">@homePage.Title</span>
+            <button type="button" class="btn-close btn-close-white"
+                    data-bs-dismiss="offcanvas"></button>
+        </div>
+
+        <div class="offcanvas-body p-0">
+            <ul class="mobile-menu">
+                @foreach (var item in homePage.NavbarLinks)
+                {
+                    <li>
+                        <a href="@item.Url" data-bs-dismiss="offcanvas">
+                            @item.Name
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+     @if (Model?.Content?.ContentType?.Alias == "root")
+    {
+
+        <div class="row col-12">
+          
+            <div class="col-sm-8 p-1">
+                <!-- Fullscreen Carousel Under Navbar -->
+                <div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @{
+                            bool isActive = true;
+                            foreach (var img in homePage.SelectImagesForBanner)
+                            {
+                                <div class="carousel-item @(isActive ? "active" : "")">
+                                    <img src="@img.LocalCrops.Src" class="d-block w-100 carousel-img" />
+                                </div>
+                                isActive = false;
+                            }
+                        }
+                    </div>
+
+                    <!-- Logo on Carousel -->
+                    <div class="carousel-overlay">
+                        <img src="@homePage.Logo.LocalCrops.Src" class="overlay-logo" alt="Logo" width="100px" />
+                        @*   <h2 class="text-white fw-bold">@homePage.Title</h2> *@
+                    </div>
+
+                    <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                    <div class="carousel-flash"></div>
+                </div>
+
+            </div>
+            <div class="col-sm-4 ">
+                <div class="tourism-card-Head pt-2">
+                    <h2 style="text-align: center;">
+                        <span class="orange pt-1">महाराष्ट्र</span> पर्यटन
+                     </h2>
+
+                    <p class="text collapsed" id="tourismText">
+                        महाराष्ट्र सरकार, भारतातील आणि आंतरराष्ट्रीय स्तरावर महाराष्ट्रातील विविध आकर्षणे प्रदर्शित करून राज्यातील पर्यटनाला प्रोत्साहन आणि विकास करण्यासाठी समर्पित आहे. आमचे मुख्य उद्दिष्ट पर्यटन पायाभूत सुविधा वाढवणे, धोरणात्मक योजना तयार करणे आणि शाश्वत पर्यटन उपक्रम राबविणे आहे. पर्यटकांना एकसंध आणि आनंददायी अनुभव मिळावा यासाठी आम्ही प्रवास मार्गदर्शक आणि माहिती केंद्रांसह व्यापक पर्यटन सेवा प्रदान करण्याचे उद्दिष्ट ठेवतो. गणेशोत्सव आणि हिंदवी स्वराज्य महोत्सव यांसारखे सांस्कृतिक, ऐतिहासिक आणि मनोरंजक कार्यक्रम आणि उत्सव आयोजित करून आणि प्रोत्साहन देऊन, आम्ही महाराष्ट्राचा अद्वितीय वारसा आणि चैतन्यशील संस्कृती अधोरेखित करण्याचा प्रयत्न करतो. महाराष्ट्रात अजिंठा आणि वेरूळ लेण्यांसारख्या युनेस्कोच्या जागतिक वारसा स्थळे, महाबळेश्वर आणि लोणावळा सारखी नयनरम्य टेकड्या आणि मुंबई आणि पुणे सारखी गजबजलेली शहरी केंद्रे यासह पर्यटन स्थळांचा समृद्ध संग्रह आहे. आमचे प्रयत्न इको-टुरिझम आणि साहसी पर्यटनाला प्रोत्साहन देण्यासाठी आहेत, जेणेकरून आमचे नैसर्गिक लँडस्केप आणि साहसी उपक्रम सुलभ आणि शाश्वत राहतील याची खात्री होईल. शिर्डी आणि सिद्धिविनायक मंदिरासारख्या तीर्थक्षेत्रांना धार्मिक पर्यटनाला चालना देऊन, आम्ही विविध प्रकारच्या आवडी आणि पसंती पूर्ण करतो. आमच्या उपक्रमांबद्दल अधिक माहितीसाठी आणि तुमच्या भेटीचे नियोजन करण्यासाठी, कृपया आमची अधिकृत वेबसाइट पहा किंवा महाराष्ट्रातील प्रमुख शहरांमध्ये असलेल्या आमच्या कार्यालयांशी संपर्क साधा.
+                    </p>
+
+                    <a href="javascript:void(0)" class="read-more" id="toggleBtn">
+                        Read More
+                    </a>
+                </div>
+               
+            </div>
+        </div>
+      
+    }
+
+    <!-- Main Content -->
+    <main class="container my-3 main-watermark">
+        <span class="watermark-bg"
+              style="background-image:url('@homePage.Logo.LocalCrops.Src')"></span>
+
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white pt-4 pb-2 mt-4">
+        <div class="container">
+            <div class="row gy-3 text-center text-md-start">
+
+                <!-- Logo + Title -->
+                <div class="col-12 col-md-4 d-flex align-items-center justify-content-center justify-content-md-start">
+                    <img src="@homePage.Logo.LocalCrops.Src" class="footer-logo me-2" alt="Logo" width="100px">
+                    <span class="fw-bold footer-title">@homePage.Title</span>
+                  
+                </div>
+
+                <!-- Footer Navigation -->
+                @foreach (var group in homePage.FooterLinks)
+                {
+                    var block = group.Content as FooterLink;
+                    var links = block?.Links;
+
+                    <div class="col-12 col-md-2">
+                        <h6 class="fw-bold mb-2">@block.GroupName</h6>
+                        <ul class="list-unstyled footer-links">
+                            @foreach (var item in links)
+                            {
+                                <li>
+                                    <a href="@item.Url" class="text-white text-decoration-none">
+                                        @item.Name
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <!-- Contact -->
+                <div class="col-12 col-md-2">
+                    <h6 class="fw-bold mb-2">Contact</h6>
+                    <p class="small m-0">info@districtinfo.com</p>
+                    <p class="small m-0">+91 12345 67890</p>
+                </div>
+
+            </div>
+
+            <hr class="footer-divider my-3">
+
+            <p class="text-center small m-0">
+                © @DateTime.Now.Year Sindhuratn Portal – All Rights Reserved   Powered By. Aviraj Innovations Pvt. Ltd. Karad
+            </p>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+@RenderSection("Scripts", required: false)
