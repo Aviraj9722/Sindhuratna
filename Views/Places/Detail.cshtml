@@ -1,0 +1,10 @@
+﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+@{
+    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
+    // var homePage = root as Root;
+
+    TouristPlace Place = ViewBag.TouristPlace as TouristPlace;
+}
+@{
+    Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
+}

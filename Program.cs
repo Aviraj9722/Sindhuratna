@@ -93,4 +93,10 @@ app.MapControllerRoute(
     defaults: new { controller = "scheme", action = "Detail" }
 );
 
+app.MapControllerRoute(
+    name: "placeDetail",
+    pattern: "place-detail",
+    defaults: new { controller = "Places", action = "Detail" }
+);
+
 await app.RunAsync();

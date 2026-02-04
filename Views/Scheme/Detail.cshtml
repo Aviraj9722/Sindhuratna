@@ -1,13 +1,8 @@
-﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
-@{
-    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
-    // var homePage = root as Root;
-
-    Hotel SchemePage = ViewBag.GovernmentSchemePage as GovernmentScheme;
-}
-
+﻿
 
 @{
+    
+    var Page = ViewBag.GovernmentSchemePage as GovernmentScheme;
     Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
 }
 
@@ -125,40 +120,44 @@
             <div class="card">
                 <h2>Basic Information</h2>
                 <div class="grid">
-                    <div class="info-box"><label>Scheme Name</label> Scheme Rahu ABC</div>
-                    <div class="info-box"><label>Scheme Type</label> Education</div>
-                    <div class="info-box"><label>Department</label> Cenaa bisf sf</div>
-                    <div class="info-box"><label>Scheme Level</label> District</div>
-                    <div class="info-box"><label>Status</label> <span class="badge badge-active">Active</span></div>
+                    <div class="info-box"><label>Scheme Name</label> @Page.SchemeName</div>
+                    <div class="info-box"><label>Scheme Type</label> @Page.SchemeType</div>
+                    <div class="info-box"><label>Department</label> @Page.Department</div>
+                    <div class="info-box"><label>Scheme Level</label> @Page.SchemeLevel</div>
+                    <div class="info-box"><label>Status</label> <span class="badge badge-active"> @Page.Status</span></div>
                 </div>
                 <div class="info-box" style="margin-top:15px;">
                     <label>Short Description</label>
-                    shafdys gfyuasuyf gasufl galsui fulidf o;asf sad gsabg ksabdgasdgasgs
+                    @Page.ShortDescription
                 </div>
             </div>
 
             <div class="card">
                 <h2>Detailed Description</h2>
-                <p>Detailed description of the scheme goes here. You can expand this section with rich text, images, or FAQs.</p>
+                <p> @Html.Raw(Page.DetailedDescription)</p>
             </div>
 
             <div class="card">
                 <h2>Benefits</h2>
                 <ul>
-                    <li>Scheme Benefit</li>
-                    <li>Scheme Benefit</li>
-                    <li>Scheme Benefit</li>
-                    <li>Scheme Benefit</li>
+                    @foreach (var item in Page.Benefits)
+                    {
+                        var be = item.Content as SchemeBenefit;
+                        <li>@be.BenefitType - @be.Description</li>
+                    }
+                 
                 </ul>
             </div>
 
             <div class="card">
                 <h2>Eligibility</h2>
                 <ul>
-                    <li>Scheme Eligibility1</li>
-                    <li>Scheme Eligibility2</li>
-                    <li>Scheme Eligibility3</li>
-                    <li>Scheme Eligibility4</li>
+                    @foreach (var item in Page.Eligibility)
+                    {
+                        var be = item.Content as SchemeEligibility;
+                        <li>@be.Description</li>
+                    }
+
                 </ul>
             </div>
 
@@ -172,28 +171,38 @@
                 <div class="info-box"><label>Application Mode</label> Online</div>
 
                 <h3>Application Steps</h3>
-                <ul>
-                    <li>Application Step1</li>
-                    <li>Application Step2</li>
-                    <li>Application Step3</li>
-                    <li>Application Step4</li>
+                <ul type="none">
+                   @foreach (var item in Page.ApplicationSteps)
+                    {
+                        var step = item.Content as ApplicationStep;
+                        <li>@step.StepNumber. @step.Description</li>
+                        
+                    }
                 </ul>
 
-                <a href="#" class="btn-apply">Apply Now</a>
+                <a href="@Page.ApplyLink" class="btn-apply">Apply Now</a>
             </div>
 
             <div class="card">
                 <h2>Required Documents</h2>
                 <ul>
-                    <li>Identity Proof</li>
-                    <li>Address Proof</li>
-                    <li>Income Certificate</li>
+                    @foreach (var item in Page.RequiredDocuments)
+                    {
+                        var step = item.Content as RequiredDocument;
+                        <li>@step.DocumentName</li>
+
+                    }
                 </ul>
             </div>
 
             <div class="card">
                 <h2>Department Contact</h2>
-                <p>Department Contact</p>
+                @foreach (var item in Page.DepartmentContacts)
+                {
+                    var step = item.Content as DepartmentContact;
+                    <p> @step.OfficeName   @step.ContactPerson</p>
+                }
+               
             </div>
 
             <div class="card">
