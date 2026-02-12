@@ -99,6 +99,245 @@
         align-items: start;
     }
 
+    .department-contact {
+        border: 1px solid #eef0f6;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: #fafbff;
+    }
+
+        .department-contact h4 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+    .contact-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 8px;
+        font-size: 14px;
+        color: #444;
+    }
+
+        .contact-row i {
+            color: #4a6cf7;
+            min-width: 18px;
+            margin-top: 2px;
+        }
+
+    .contact-person {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .contact-row a {
+        color: #4a6cf7;
+        text-decoration: none;
+    }
+
+        .contact-row a:hover {
+            text-decoration: underline;
+        }
+    /* APPLICATION STEPS UI */
+
+    .steps-container {
+        margin-top: 15px;
+    }
+
+    .step-item {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .step-number {
+        min-width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #4a6cf7;
+        color: #fff;
+        font-weight: bold;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .step-content {
+        background: #f8faff;
+        padding: 10px 14px;
+        border-radius: 8px;
+        flex: 1;
+        border: 1px solid #eef1ff;
+    }
+
+    .step-title {
+        font-weight: 600;
+        margin-bottom: 2px;
+        color: #2c3e50;
+    }
+
+    .step-desc {
+        font-size: 14px;
+        color: #444;
+    }
+
+    /* vertical connector line */
+    .step-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        left: 16px;
+        top: 36px;
+        width: 2px;
+        height: calc(100% - 10px);
+        background: #dfe5ff;
+    }
+    /* REQUIRED DOCUMENTS */
+
+    .documents-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+    }
+
+    .document-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f8faff;
+        border: 1px solid #e6ebff;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+        transition: all 0.2s ease;
+    }
+
+        .document-card:hover {
+            background: #eef2ff;
+            border-color: #cfd8ff;
+        }
+
+    .document-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 6px;
+        background: #4a6cf7;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .document-name {
+        font-weight: 500;
+    }
+
+    /* BENEFITS */
+
+    .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+        margin-top: 10px;
+    }
+
+    .benefit-card {
+        display: flex;
+        gap: 12px;
+        background: #f8faff;
+        border: 1px solid #e6ebff;
+        border-radius: 10px;
+        padding: 14px;
+        transition: all 0.2s ease;
+    }
+
+        .benefit-card:hover {
+            background: #eef2ff;
+            border-color: #cfd8ff;
+        }
+
+    .benefit-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #4a6cf7;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    .benefit-content {
+        flex: 1;
+    }
+
+    .benefit-type {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 3px;
+    }
+
+    .benefit-desc {
+        font-size: 14px;
+        color: #444;
+    }
+
+    /* ELIGIBILITY */
+
+    .eligibility-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 14px;
+        margin-top: 10px;
+    }
+
+    .eligibility-card {
+        display: flex;
+        gap: 12px;
+        background: #f8faff;
+        border: 1px solid #e6ebff;
+        border-radius: 10px;
+        padding: 14px;
+        transition: all 0.2s ease;
+    }
+
+        .eligibility-card:hover {
+            background: #eef2ff;
+            border-color: #cfd8ff;
+        }
+
+    .eligibility-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #4a6cf7;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+
+    .eligibility-text {
+        font-size: 14px;
+        color: #444;
+        line-height: 1.5;
+    }
+
+
     @@media (max-width: 900px) {
         .cards-layout
 
@@ -139,27 +378,84 @@
 
             <div class="card">
                 <h2>Benefits</h2>
-                <ul>
+
+                <div class="benefits-grid">
+
                     @foreach (var item in Page.Benefits)
                     {
                         var be = item.Content as SchemeBenefit;
-                        <li>@be.BenefitType - @be.Description</li>
+
+                        string icon = "fa-gift"; // default
+
+                        var type = be?.BenefitType?.ToLower();
+
+                        if (type.Contains("financial")) icon = "fa-indian-rupee-sign";
+                        else if (type.Contains("subsidy")) icon = "fa-percent";
+                        else if (type.Contains("education")) icon = "fa-user-graduate";
+                        else if (type.Contains("health")) icon = "fa-heart-pulse";
+                        else if (type.Contains("insurance")) icon = "fa-shield-halved";
+                        else if (type.Contains("loan")) icon = "fa-hand-holding-dollar";
+
+                        <div class="benefit-card">
+
+                            <div class="benefit-icon">
+                                <i class="fa-solid @icon"></i>
+                            </div>
+
+                            <div class="benefit-content">
+                                <div class="benefit-type">
+                                    @be.BenefitType
+                                </div>
+
+                                <div class="benefit-desc">
+                                    @be.Description
+                                </div>
+                            </div>
+
+                        </div>
                     }
-                 
-                </ul>
+
+                </div>
             </div>
+
 
             <div class="card">
                 <h2>Eligibility</h2>
-                <ul>
+
+                <div class="eligibility-grid">
+
                     @foreach (var item in Page.Eligibility)
                     {
-                        var be = item.Content as SchemeEligibility;
-                        <li>@be.Description</li>
+                        var el = item.Content as SchemeEligibility;
+
+                        string icon = "fa-circle-check"; // default
+
+                        var text = el?.Description?.ToLower();
+
+                        if (text.Contains("age")) icon = "fa-user";
+                        else if (text.Contains("income")) icon = "fa-indian-rupee-sign";
+                        else if (text.Contains("resident")) icon = "fa-location-dot";
+                        else if (text.Contains("farmer")) icon = "fa-tractor";
+                        else if (text.Contains("student")) icon = "fa-user-graduate";
+                        else if (text.Contains("women")) icon = "fa-person-dress";
+                        else if (text.Contains("caste")) icon = "fa-id-card";
+
+                        <div class="eligibility-card">
+
+                            <div class="eligibility-icon">
+                                <i class="fa-solid @icon"></i>
+                            </div>
+
+                            <div class="eligibility-text">
+                                @el.Description
+                            </div>
+
+                        </div>
                     }
 
-                </ul>
+                </div>
             </div>
+
 
         </div>
 
@@ -171,48 +467,140 @@
                 <div class="info-box"><label>Application Mode</label> Online</div>
 
                 <h3>Application Steps</h3>
-                <ul type="none">
-                   @foreach (var item in Page.ApplicationSteps)
+
+                <div class="steps-container">
+
+                    @foreach (var item in Page.ApplicationSteps.OrderBy(x => ((ApplicationStep)x.Content).StepNumber))
                     {
                         var step = item.Content as ApplicationStep;
-                        <li>@step.StepNumber. @step.Description</li>
-                        
-                    }
-                </ul>
 
-                <a href="@Page.ApplyLink" class="btn-apply">Apply Now</a>
+                        <div class="step-item">
+
+                            <div class="step-number">
+                                @step.StepNumber
+                            </div>
+
+                            <div class="step-content">
+                                <div class="step-title">Step @step.StepNumber</div>
+                                <div class="step-desc">
+                                    @step.Description
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+                <a href="@Page.ApplyLink" class="btn-apply text-center">Apply Now</a>
             </div>
 
             <div class="card">
                 <h2>Required Documents</h2>
-                <ul>
+
+                <div class="documents-grid">
+
                     @foreach (var item in Page.RequiredDocuments)
                     {
-                        var step = item.Content as RequiredDocument;
-                        <li>@step.DocumentName</li>
+                        var doc = item.Content as RequiredDocument;
 
+                        <div class="document-card">
+
+                            <div class="document-icon">
+                                <i class="fa-solid fa-file-lines"></i>
+                            </div>
+
+                            <div class="document-name">
+                                @doc.DocumentName
+                            </div>
+
+                        </div>
                     }
-                </ul>
+
+                </div>
             </div>
+
 
             <div class="card">
                 <h2>Department Contact</h2>
                 @foreach (var item in Page.DepartmentContacts)
                 {
-                    var step = item.Content as DepartmentContact;
-                    <p> @step.OfficeName   @step.ContactPerson</p>
+                    var contact = item.Content as DepartmentContact;
+
+                    <div class="department-contact">
+
+                        <h4>
+                            <i class="fa-solid fa-building-columns"></i>
+                            @contact.OfficeName
+                        </h4>
+
+                        <div class="contact-row">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="contact-person">@contact.ContactPerson</span>
+                        </div>
+
+                        <div class="contact-row">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>@contact.OfficeAddress</span>
+                        </div>
+
+                        <div class="contact-row">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>@contact.PhoneNumber</span>
+                        </div>
+
+                        <div class="contact-row">
+                            <i class="fa-solid fa-envelope"></i>
+                            <a href="mailto:@contact.Email">@contact.Email</a>
+                        </div>
+
+                    </div>
                 }
                
             </div>
 
             <div class="card">
                 <h2>Target Audience</h2>
-                <div class="audience-tags">
-                    <span>Student</span>
-                    <span>Employed</span>
-                    <span>Farmers</span>
-                </div>
+
+                @{
+                    var audiences = Page.TargetAudience as string[];
+                }
+
+                @if (audiences != null && audiences.Length > 0)
+                {
+                    <div class="audience-grid">
+
+                        @foreach (var item in audiences)
+                        {
+                            var audience = item?.Trim().ToLower();
+
+                            string icon = "fa-users"; // default
+
+                            if (audience.Contains("student")) icon = "fa-user-graduate";
+                            else if (audience.Contains("farmer")) icon = "fa-tractor";
+                            else if (audience.Contains("women")) icon = "fa-person-dress";
+                            else if (audience.Contains("senior")) icon = "fa-person-cane";
+                            else if (audience.Contains("employ")) icon = "fa-briefcase";
+
+                            <div class="audience-card">
+                                <div class="audience-icon">
+                                    <i class="fa-solid @icon"></i>
+                                </div>
+                                <div class="audience-name">
+                                    @item
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+                else
+                {
+                    <p>No target audience defined.</p>
+                }
             </div>
+
+
 
         </div>
 

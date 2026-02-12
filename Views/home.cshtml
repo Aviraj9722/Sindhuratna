@@ -144,6 +144,74 @@
         max-height: 40vh !important;
         overflow: hidden;
     }
+
+    /* ===== HOTEL CARD ===== */
+    .hotel-card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: 0.2s ease;
+    }
+
+    .hotel-img {
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .hotel-card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* TITLE */
+    .hotel-title {
+        font-weight: 600;
+        font-size: 16px;
+        color: #2c3e50;
+        margin-bottom: 6px;
+    }
+
+    /* TEXT */
+    .hotel-text {
+        font-size: 13px;
+        color: #6c757d;
+        margin-bottom: 4px;
+    }
+
+    /* BADGE */
+    .hotel-badge {
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        width: fit-content;
+    }
+
+    /* BUTTON */
+    .hotel-btn {
+        border-radius: 6px;
+        font-size: 13px;
+    }
+
+    /* Fix equal title height */
+    .place-title {
+        min-height: 48px; /* keeps all cards aligned */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Keep badge clean */
+    .place-badge {
+        width: fit-content;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    /* Optional: Make description equal height */
+    .tourism-card .card-text {
+        min-height: 60px;
+    }
+
+
+
 </style>
 <script>
         const btn = document.getElementById("toggleBtn");
@@ -172,7 +240,7 @@
   </div>
 </div>
     <div class="col-sm-4 mt-4">
-        <div class="leaders-section">
+        <div class="leaders-section d-none">
 
             <div class="leader-card pink">
                 <img src="https://via.placeholder.com/70" alt="Devendra Fadnavis">
@@ -301,12 +369,12 @@
     <div class="col-sm-8">
         @Html.Raw(homePage.Description)
 
-        <div class="col-12 mt-4">
+        <div class="col-12 mb-3">
             <h3 class="fw-bold mb-4" style="border-bottom: 2px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
                 <i class="fa-solid fa-hotel me-2"></i> प्रमुख निवासस्थाने
             </h3>
-
-            <div class="row">
+            <!-- HOTEL GRID -->
+            <div class="row g-4">
                 @foreach (var block in homePage.SelectHotels)
                 {
                     var hotelItem = block.Content.Value<IPublishedElement>("selectHotel");
@@ -316,8 +384,9 @@
                         var obj = hotelItem as Hotel;
                         var firstImage = obj?.Images?.FirstOrDefault()?.LocalCrops?.Src;
 
-                        <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                            <div class="card tourism-card h-100 shadow-sm">
+                        <div class="col-md-6">
+                            <!-- IMAGE LEFT -->
+                            <div class="card h-100 border-0 shadow-sm hotel-card">
 
                                 @if (!string.IsNullOrEmpty(firstImage))
                                 {
@@ -328,28 +397,33 @@
 
                                 <div class="card-body d-flex flex-column">
 
-                                    <span style="width:70px;" class="badge bg-info rounded-pill mb-2">
-                                        <i class="fa-solid fa-bed me-1"></i> Hotel
-                                    </span>
+                                    <div>
+                                        <span class="badge bg-primary-subtle text-primary mb-2 hotel-badge">
+                                            <i class="fa-solid fa-bed me-1"></i>
+                                            Hotel
+                                        </span>
+                                        <h5 class="card-title fw-semibold">
 
-                                    <h5 class="card-title fw-bold text-dark mb-2">
+                                            @obj?.HotelName
+                                        </h5>
 
-                                        @obj?.HotelName
-                                    </h5>
+                                        @if (!string.IsNullOrEmpty(obj?.Address))
+                                        {
+                                            <p class="text-muted small mb-2">
+                                                <i class="fa-solid fa-location-dot me-1 text-dark"></i>
+                                                @obj.Address
+                                            </p>
+                                        }
 
-                                    @if (!string.IsNullOrEmpty(obj?.Address))
-                                    {
-                                        <p class="card-text small text-secondary mb-1">
-                                            <i class="fa-solid fa-location-dot me-1"></i>@obj.Address
-                                        </p>
-                                    }
+                                        @if (!string.IsNullOrEmpty(obj?.ContactNumber))
+                                        {
+                                            <p class="text-muted small mb-3">
+                                                <i class="fa-solid fa-phone me-1"></i>
+                                                @obj.ContactNumber
+                                            </p>
+                                        }
+                                    </div>
 
-                                    @if (!string.IsNullOrEmpty(obj?.ContactNumber))
-                                    {
-                                        <p class="card-text small text-secondary m-0">
-                                            <i class="fa-solid fa-phone me-1"></i>@obj.ContactNumber
-                                        </p>
-                                    }
 
                                     @* Google Maps Button *@
                                     @if (!string.IsNullOrEmpty(obj?.Location))
@@ -358,22 +432,29 @@
 
                                         <a href="@mapUrl"
                                            target="_blank"
-                                           class="btn btn-sm btn-outline-primary mt-3 w-100">
+                                           class="btn btn-sm btn-outline-primary mt-auto w-100">
                                             <i class="fa-solid fa-map-location-dot me-1"></i> स्थळ नकाशावर पहा
                                         </a>
                                     }
 
                                 </div>
+
                             </div>
+
+                            
+                            
                         </div>
+                        
                     }
                 }
+           
             </div>
         </div>
 
     </div>
 
     <hr />
+    
     <div class="row mt-4">
         <h3 class="text-primary fw-bold mb-4" style="border-bottom: 1px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
             <i class="fa-solid fa-map-location-dot me-2"></i>प्रमुख पर्यटनस्थळे
@@ -391,7 +472,7 @@
                     <div class="card border-0 shadow-sm h-100 tourism-card">
 
                         @* Image Box *@
-                                    @if (!string.IsNullOrEmpty(firstImage))
+                        @if (!string.IsNullOrEmpty(firstImage))
                         {
                             <img src="@firstImage"
                                  class="card-img-top place-img"
@@ -400,13 +481,18 @@
 
                         <div class="card-body d-flex flex-column">
 
+                            <div class="place-title mb-2">
+                                <h5 class="card-title text-dark fw-semibold m-0">
+                                    @obj?.PlaceName
+                                </h5>
 
-
-                            <h5 class="card-title text-dark fw-semibold mb-2">
-                                @obj?.PlaceName <span class="badge bg-success rounded-pill mb-2">
-                                    <i class="fa-solid fa-location-dot me-1"></i>@obj?.PlaceType
-                                </span>
-                            </h5>
+                                @if (!string.IsNullOrEmpty(obj?.PlaceType))
+                                {
+                                    <span class="badge bg-success rounded-pill place-badge">
+                                        <i class="fa-solid fa-location-dot me-1"></i>@obj?.PlaceType
+                                    </span>
+                                }
+                            </div>
 
                             <p class="card-text text-secondary small flex-grow-1">
                                 @Html.Raw(obj?.ShortDescription)

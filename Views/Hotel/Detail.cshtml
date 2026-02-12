@@ -1,4 +1,6 @@
-﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
+﻿@using StackExchange.Profiling.Internal
+@using System.Text.Json
+@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
 @{
     var root = ContentQuery.ContentAtRoot().FirstOrDefault();
     // var homePage = root as Root;
@@ -10,134 +12,423 @@
 }
 
 <style>
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
+    /* ---------- PAGE ---------- */
+    .hotel-page h1 {
+        font-weight: 700;
     }
 
-    .info-item {
-        padding: 15px;
-        background: #fafafa;
-        border-radius: 6px;
-        border: 1px solid #e0e0e0;
-    }
-    /* Amenities */
-    .amenities-list {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 10px;
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .hotel-card {
+        border-radius: 12px;
     }
 
-        .amenities-list li {
-            background: #eef2f5;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-        }
-    /* Booking */
-    .booking {
-        display: flex;
-        justify-content: space-between;
+    .section-title {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    /* ---------- IMAGE GALLERY ---------- */
+    .main-img {
+        height: 340px;
+        object-fit: cover;
+        border-radius: 12px;
+        cursor: pointer;
+    }
+
+    .thumb-img {
+        height: 90px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+   /*  /* ---------- MODAL ---------- */
+    /* ===== GLOBAL IMAGE LIGHTBOX ===== */
+    .img-modal {
+        position: fixed !important;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.88);
+        backdrop-filter: blur(6px);
+        display: none;
+        justify-content: center;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
+        z-index: 9999999 !important;
     }
 
+    .modal-content-wrapper {
+        max-width: 92%;
+        max-height: 92%;
+        text-align: center;
+    }
+
+    .modal-img {
+        max-width: 100%;
+        max-height: 78vh;
+        border-radius: 10px;
+    }
+
+    .modal-thumbs {
+        margin-top: 12px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+
+        .modal-thumbs img {
+            width: 72px;
+            height: 52px;
+            object-fit: cover;
+            opacity: 0.5;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+            .modal-thumbs img:hover {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+
+    .close-btn {
+        position: fixed;
+        top: 18px;
+        right: 28px;
+        font-size: 36px;
+        color: white;
+        cursor: pointer;
+        z-index: 10000000;
+    }
+
+    /* ---------- INFO ---------- */
+    .info-box {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    /* ---------- AMENITIES ---------- */
+    .amenities span {
+        background: #eef2f5;
+        padding: 6px 10px;
+        border-radius: 6px;
+        margin: 4px;
+        display: inline-block;
+        font-size: 14px;
+    }
+
+    /* ---------- BOOKING ---------- */
     .price {
-        font-size: 22px;
-        font-weight: bold;
+        font-size: 24px;
+        font-weight: 700;
         color: #2e7d32;
     }
 
-    .btn {
-        padding: 12px 20px;
-        background: #1976d2;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 6px;
-        font-weight: bold;
+    .book-btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+    }
+    /* ===== AMENITIES GRID ===== */
+    .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 14px;
     }
 
-    .rating {
-        font-size: 18px;
-        color: #ff9800;
+    /* ===== AMENITY ITEM ===== */
+    .amenity-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 10px 14px;
+        border: 1px solid #e5e5e5;
+        min-height: 48px;
     }
+
+        /* ICON */
+        .amenity-item i {
+            font-size: 16px;
+            color: #0d6efd;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* TEXT */
+        .amenity-item span {
+            font-size: 14px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+  
 </style>
 
+@if (HotelPage != null)
+{
+    <div class="container mt-4 hotel-page">
 
-<div class="container">
+        <!-- ================= TOP SECTION ================= -->
+        <div class="row g-4">
+            <!-- ===== LEFT : HOTEL INFO ===== -->
+            <div class="col-lg-5">
+
+                <h1>@HotelPage.HotelName</h1>
+                <p class="text-muted mb-1">
+                    <i class="fa-solid fa-location-dot me-1"></i> @HotelPage.Address
+                </p>
+
+                <div class="mb-2 mt-3">
+                    <span class="badge bg-primary">@HotelPage.StayType</span>
+                    <span class="ms-2 text-warning">
+                        <i class="fa-solid fa-star me-1"></i> @HotelPage.Rating / 5
+                    </span>
+                </div>
+
+                @*  <div class="info-box mb-3">
+                    <p class="mb-0">@HotelPage.Description</p>
+                </div> *@
+
+                <!-- ================= AMENITIES ================= -->
+                @if (HotelPage.Amenities != null && HotelPage.Amenities.Any())
+                {
+                    <div class="card shadow-sm p-4 mt-4 hotel-card">
+
+                        <h4 class="section-title border-bottom pb-2">
+                            <i class="fa-solid fa-star text-warning me-2"></i> Amenities
+                        </h4>
+
+                        <div class="amenities-grid mt-3">
+
+                            @foreach (var item in HotelPage.Amenities)
+                            {
+                                string iconClass = "fa-solid fa-circle-check"; // default
+                                var text = item.ToLower();
+
+                                if (text.Contains("wifi") || text.Contains("internet"))
+                                    iconClass = "fa-solid fa-wifi";
+                                else if (text.Contains("air") || text.Contains("ac"))
+                                    iconClass = "fa-solid fa-wind";
+                                else if (text.Contains("parking"))
+                                    iconClass = "fa-solid fa-square-parking";
+                                else if (text.Contains("coffee") || text.Contains("tea"))
+                                    iconClass = "fa-solid fa-mug-hot";
+                                else if (text.Contains("tv"))
+                                    iconClass = "fa-solid fa-tv";
+                                else if (text.Contains("restaurant") || text.Contains("food"))
+                                    iconClass = "fa-solid fa-utensils";
+                                else if (text.Contains("pool"))
+                                    iconClass = "fa-solid fa-person-swimming";
+                                else if (text.Contains("gym"))
+                                    iconClass = "fa-solid fa-dumbbell";
+
+                                <div class="amenity-item">
+                                    <i class="@iconClass"></i>
+                                    <span>@item</span>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
 
 
-    <!-- Hotel Name -->
-    <h1>@HotelPage.HotelName</h1>
-    <p><strong>Stay Type:</strong> @HotelPage.StayType</p>
+            </div>
+            <!-- ===== RIGHT : IMAGES ===== -->
+            <div class="col-lg-7 position-relative">
 
+                @if (HotelPage.Images != null && HotelPage.Images.Any())
+                {
+                    var first = HotelPage.Images.First();
+                    var firstFull = first.Url();
+                    var allImagesJson = JsonSerializer.Serialize(HotelPage.Images.Select(i => i.Url()));
 
-    <!-- Banner Images -->
-    <div class="banner">
-        @foreach (var item in HotelPage.Images)
-        {
-            <img src="@item.LocalCrops.Src" alt="Hotel Image 1" width="300px">
-        }
-        
-       
-    </div>
+                    <img src="@first.Url()"
+                         class="w-100 main-img shadow-sm"
+                         onclick='openImage("@first.Url()", @Html.Raw(allImagesJson))' />
 
+                        <div class="row mt-2 g-2">
+                        @foreach (var img in HotelPage.Images.Skip(1))
+                        {
+                            <div class="col-3">
+                                <img src="@img.Url()"
+                                     class="w-100 thumb-img shadow-sm"
+                                     onclick='openImage("@img.Url()", @Html.Raw(allImagesJson))' />
+                            </div>
+                        }
+                        </div>
+                }
+                else
+                {
+                    <p class="text-muted">No images available</p>
+                }
 
-    <!-- Basic Information -->
-    <div class="box">
-        <h2>Hotel Information</h2>
-        <div class="info-grid">
-            <div class="info-item"><strong>Address:</strong><br> @HotelPage.Address</div>
-            <div class="info-item"><strong>Contact Number:</strong><br> @HotelPage.ContactNumber</div>
-            <div class="info-item"><strong>Price Range:</strong><br> @HotelPage.PriceRange</div>
-            <div class="info-item"><strong>Rating:</strong><br> <span class="rating">★ (@HotelPage.Rating/5)</span></div>
+            </div>
+
+            
         </div>
-    </div>
+
+        <!-- ================= LOCATION + BOOK ================= -->
+        <div class="card shadow-sm p-4 mt-4 hotel-card">
+
+            <h4 class="section-title border-bottom pb-2">
+                <i class="fa-solid fa-map-location-dot"></i> Location
+            </h4>
+
+            <div class="row mt-3">
+
+                <!-- MAP -->
+                <div class="col-lg-7">
+                    @if (!string.IsNullOrWhiteSpace(HotelPage.Location))
+                    {
+                        var rawLocation = HotelPage.Location.Trim();
+                        var mapCoordinates = rawLocation;
+
+                        // Convert DMS → Decimal if contains °
+                        if (rawLocation.Contains("°"))
+                        {
+                            var parts = rawLocation.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                            if (parts.Length >= 4)
+                            {
+                                var lat = parts[0].Replace("°", "");
+                                var latDir = parts[1];
+
+                                var lng = parts[2].Replace("°", "");
+                                var lngDir = parts[3];
+
+                                if (latDir == "S") lat = "-" + lat;
+                                if (lngDir == "W") lng = "-" + lng;
+
+                                mapCoordinates = $"{lat},{lng}";
+                            }
+                        }
+
+                        // 👉 Use Coordinates for accurate MAP PIN
+                        var embedUrl = $"https://maps.google.com/maps?q={mapCoordinates}&z=15&output=embed";
+
+                        <iframe src="@embedUrl"
+                                style="width:100%; height:320px; border:0; border-radius:10px;"
+                                loading="lazy">
+                        </iframe>
+
+                        // 👉 Use TEXT (Hotel Name + Address) so Google shows LOCATION NAME
+                        var textLocation = $"{HotelPage.HotelName} {HotelPage.Address}";
+                        var encodedText = Uri.EscapeDataString(textLocation);
+
+                        <a href="https://www.google.com/maps/search/?api=1&query=@encodedText"
+                           target="_blank"
+                           class="btn btn-outline-primary btn-sm mt-2">
+                            View on Map
+                        </a>
+                    }
+                    else
+                    {
+                        <p class="text-muted">Location not available</p>
+                    }
+                </div>
 
 
-    <!-- Amenities -->
-    <div class="box">
-        <h2>Amenities</h2>
-        
-        <ul class="amenities-list">
-            @foreach (var item in HotelPage.Amenities)
-            {
-                <li>@item</li>
-                
-            }
-        </ul>
-    </div>
+                <!-- PRICE + BOOK -->
+                <div class="col-lg-5 d-flex flex-column justify-content-between">
+
+                    <div class="bg-light rounded p-3 text-center mb-3 shadow-sm">
+                        <h6 class="text-muted mb-1">Price per Night</h6>
+                        <div class="price">₹@HotelPage.PriceRange</div>
+                    </div>
+
+                    @{
+                        var bookingLink = HotelPage.BookingLink?.FirstOrDefault();
+                    }
+
+                    @if (bookingLink != null && !string.IsNullOrWhiteSpace(bookingLink.Url))
+                    {
+                        <a href="@bookingLink.Url"
+                           target="_blank"
+                           class="btn btn-primary w-100 book-btn shadow-sm">
+
+                            <i class="fa-solid fa-calendar-check"></i> Book Now
+                        </a>
+                    }
+                </div>
 
 
-    <!-- Location -->
-    <div>
-        <h2>Location</h2>
-          @if (!string.IsNullOrEmpty(HotelPage?.Location))
-            {
-                var mapUrl = $"https://www.google.com/maps/search/?api=1&query={HotelPage.Location.Replace(" ", "")}";
-
-                <a href="@mapUrl"
-                   target="_blank"
-                   class="" style="text-align:left">
-                    <i class="fa-solid fa-map-location-dot me-1"></i>स्नकाशावर पहा
-                </a>
-            }
-       
-    </div>
-
-
-    <!-- Booking Section -->
-    <div class="box booking">
-        <div>
-            <p class="price">₹@HotelPage.PriceRange / night</p>
+            </div>
         </div>
-        <a href="@HotelPage.BookingLink" class="btn">Book Now</a>
+
     </div>
 
 
-</div>
+
+}
+else
+{
+    <div class="container mt-5">
+        <h3 class="text-danger">Hotel data not found.</h3>
+    </div>
+}
+
+
+
+
+
+
+@section Scripts {
+    <script>
+                   document.addEventListener("DOMContentLoaded", function () {
+
+            const modal = document.getElementById("imgModal");
+            const modalImg = document.getElementById("modalImg");
+            const thumbs = document.getElementById("modalThumbs");
+
+            window.openImage = function (url, allImages) {
+
+                if (!modal || !modalImg || !thumbs) return;
+
+                modal.style.display = "flex";
+                modalImg.src = url;
+                thumbs.innerHTML = "";
+
+                document.documentElement.style.overflow = "hidden";
+                document.body.style.overflow = "hidden";
+
+                allImages.forEach(img => {
+                    const t = document.createElement("img");
+                    t.src = img;
+                    t.onclick = (e) => {
+                        e.stopPropagation();
+                        modalImg.src = img;
+                    };
+                    thumbs.appendChild(t);
+                });
+            };
+
+            window.closeImage = function (e) {
+                if (!modal) return;
+                e.stopPropagation();
+
+                modal.style.display = "none";
+                document.documentElement.style.overflow = "auto";
+                document.body.style.overflow = "auto";
+            };
+
+            modalImg.addEventListener("click", function (e) {
+                e.stopPropagation();
+            });
+
+            document.addEventListener("keydown", function (e) {
+                if (e.key === "Escape") {
+                    modal.style.display = "none";
+                    document.documentElement.style.overflow = "auto";
+                    document.body.style.overflow = "auto";
+                }
+            });
+
+        });
+    </script>
+
+
+}

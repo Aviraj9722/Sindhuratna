@@ -1,10 +1,491 @@
 ﻿@inject Umbraco.Cms.Core.IPublishedContentQuery ContentQuery
-@{
-    var root = ContentQuery.ContentAtRoot().FirstOrDefault();
-    // var homePage = root as Root;
+@using System.Text.Json
+@using Umbraco.Cms.Core.Models.PublishedContent
 
-    TouristPlace Place = ViewBag.TouristPlace as TouristPlace;
-}
 @{
+    TouristPlace Place = ViewBag.TouristPlace as TouristPlace;
     Layout = "~/Views/Shared/_SindhuratnLayout.cshtml";
 }
+
+<style>
+
+    /* ================= PAGE ================= */
+    .tour-page {
+        background: linear-gradient(to bottom, #f4f7fb, #ffffff);
+        padding: 10px 0 30px 0;
+    }
+
+        .tour-page h1 {
+            font-weight: 700;
+            color: #0d3b66;
+            letter-spacing: 0.3px;
+        }
+
+    .section-title {
+        font-weight: 600;
+        color: #0d47a1;
+    }
+
+    /* ================= CARD ================= */
+    .tour-card {
+        border-radius: 14px;
+        border: none;
+        background: #ffffff;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        transition: all 0.25s ease;
+    }
+
+        .tour-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+    /* ================= INFO BOX ================= */
+    .info-box {
+        background: linear-gradient(135deg, #f1f6ff, #f9fbff);
+        border-radius: 12px;
+        padding: 14px 16px;
+        border-left: 4px solid #1976d2;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+        .info-box h5 {
+            color: #0d47a1;
+            font-weight: 600;
+        }
+
+    .badge.bg-primary {
+        background: linear-gradient(135deg, #007bff, #4da3ff);
+        padding: 6px 12px;
+        font-size: 12px;
+        border-radius: 6px;
+    }
+
+    /* ================= GALLERY ================= */
+    .main-img {
+        height: 340px;
+        object-fit: cover;
+        border-radius: 14px;
+        cursor: pointer;
+        transition: 0.25s;
+    }
+
+        .main-img:hover {
+            transform: scale(1.01);
+        }
+
+    .thumb-img {
+        height: 90px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .thumb-img:hover {
+            transform: scale(1.05);
+        }
+
+    /* ================= MAP ================= */
+    .map-frame {
+        width: 100%;
+        height: 320px;
+        border: 0;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .img-modal {
+        position: fixed !important;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.9);
+        backdrop-filter: blur(5px);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999999 !important;
+    }
+
+        /* ADD THIS */
+        .img-modal.active {
+            display: flex !important;
+        }
+
+    /* IMPORTANT — forces center */
+    .modal-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-img {
+        display: block;
+        margin: auto;
+        max-width: 100%;
+        max-height: 78vh;
+        border-radius: 12px;
+    }
+
+
+    .close-btn {
+        position: fixed;
+        top: 18px;
+        right: 28px;
+        font-size: 34px;
+        color: white;
+        cursor: pointer;
+    }
+
+    /* ================= TRAVEL CARD ================= */
+    .travel-card {
+        background: linear-gradient(135deg, #f8fbff, #ffffff);
+        border-radius: 14px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.25s ease;
+        border: 1px solid #e6eef8;
+    }
+
+        .travel-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+            border-color: #007bff;
+        }
+
+    /* Icon Circle */
+    .travel-icon {
+        width: 56px;
+        height: 56px;
+        margin: auto;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #007bff, #4da3ff);
+        color: white;
+        font-size: 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .travel-card:hover .travel-icon {
+        background: linear-gradient(135deg, #ff7b00, #ffb347);
+    }
+
+    /* ================= DESCRIPTION TEXT ================= */
+    .tour-card p {
+        color: #444;
+        line-height: 1.7;
+    }
+
+    /* ================= BUTTON ================= */
+    .btn-outline-primary {
+        border-radius: 6px;
+        font-size: 13px;
+        padding: 5px 12px;
+    }
+
+    /* ================= MOBILE ================= */
+    @@media (max-width: 768px) {
+        .main-img
+
+    {
+        height: 250px;
+    }
+
+    .thumb-img {
+        height: 70px;
+    }
+
+    }
+</style>
+
+
+@if (Place != null)
+{
+    <div class="container mt-4 tour-page">
+
+        <!-- ================= TOP ================= -->
+        <div class="row g-4">
+            <!-- =====LEFT : INFO ===== -->
+            <div class="col-lg-5">
+
+                <h1><i class="fa-solid fa-location-dot me-2"></i>@Place.PlaceName</h1>
+               @*  <p class="text-muted mb-1">
+                    
+                </p> *@
+
+                <span class="badge bg-primary">@Place.PlaceType</span>
+
+                <!-- ABOUT -->
+                <div class="info-box mt-3 mb-3 mt-4">
+                    <h5><i class="fa fa-circle-info me-2"></i> About</h5>
+                    <p class="mb-0">@Place.ShortDescription</p>
+                </div>
+
+                <!-- BASIC INFO -->
+                <div class="info-box mb-3 mt-5">
+                    <h5><i class="fa fa-id-card me-2"></i> Basic Information</h5>
+
+                    <div class="d-flex flex-wrap gap-2 mt-2">
+
+                        <span class="badge rounded-pill bg-success px-3 py-3 fs-6 text-center">
+                            <i class="fa-solid fa-ticket me-2 mt-2"></i>
+                            Entry Fee: ₹@Place.EntryFee
+                        </span>
+
+                        <span class="badge rounded-pill bg-primary px-3 py-3 fs-6 text-center">
+                            <i class="fa-regular fa-clock me-2 mt-2"></i>
+                            @Place.VisitingHours
+                        </span>
+
+                        <span class="badge rounded-pill bg-warning text-dark px-3 py-3 fs-6 text-center">
+                            <i class="fa-solid fa-cloud-sun me-2 mt-2"></i>
+                            Best Season: @Place.BestSeason
+                        </span>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- ===== RIGHT : IMAGES ===== -->
+            <div class="col-lg-7 mt-3">
+
+                @if (Place.Images != null && Place.Images.Any())
+                {
+                    var first = Place.Images.First() as IPublishedContent;
+                    var allImagesJson = JsonSerializer.Serialize(
+                    Place.Images.Select(x => (x as IPublishedContent).Url())
+                    );
+
+                    <img src="@first.Url()" class="w-100 main-img shadow-sm"
+                         onclick='openImage("@first.Url()", @Html.Raw(allImagesJson))' />
+
+                    <div class="row mt-2 g-2 mt-5">
+                        @foreach (var img in Place.Images.Skip(1))
+                        {
+                            var media = img as IPublishedContent;
+                            <div class="col-3 mt-2">
+                                <img src="@media.Url()" class="w-100 thumb-img shadow-sm"
+                                     onclick='openImage("@media.Url()", @Html.Raw(allImagesJson))' />
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No images available</p>
+                }
+
+            </div>
+
+           
+        </div>
+
+
+        <!-- DESCRIPTION -->
+        <div class="card shadow-sm p-4 mt-4 mb-5 tour-card" style="background: linear-gradient(180deg,#ffffff,#f8fbff); border-left:5px solid #007bff;">
+
+            <h4 class="section-title border-bottom pb-2 mb-3" style="color:#0d47a1;">
+                <i class="fa fa-book-open me-2 text-primary"></i> Description
+            </h4>
+
+            <div style="font-size:15.5px; line-height:1.8; color:#444;">
+                @Html.Raw(Place.Description)
+            </div>
+
+        </div>
+
+        <!-- ================= LOCATION ================= -->
+        <div class="card shadow-sm p-4 mt-4 mb-5 tour-card" style="background: linear-gradient(180deg,#ffffff,#f8fbff); border-left:5px solid #007bff;">
+
+            <h4 class="section-title border-bottom pb-2 mb-3" style="color:#0d47a1;">
+                <i class="fa-solid fa-map-location-dot me-2"></i> Location
+            </h4>
+
+            @if (!string.IsNullOrWhiteSpace(Place.Location))
+            {
+                var rawLocation = Place.Location.Trim();
+                var mapCoordinates = rawLocation;
+
+                // Convert DMS → Decimal if contains °
+                if (rawLocation.Contains("°"))
+                {
+                    var parts = rawLocation.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                    if (parts.Length >= 4)
+                    {
+                        var lat = parts[0].Replace("°", "");
+                        var latDir = parts[1];
+
+                        var lng = parts[2].Replace("°", "");
+                        var lngDir = parts[3];
+
+                        if (latDir == "S") lat = "-" + lat;
+                        if (lngDir == "W") lng = "-" + lng;
+
+                        mapCoordinates = $"{lat},{lng}";
+                    }
+                }
+
+                // 👉 Use coordinates for accurate MAP PIN
+                var embedUrl = $"https://maps.google.com/maps?q={mapCoordinates}&z=15&output=embed";
+
+                <div class="row mt-3">
+
+                    <!-- MAP -->
+                    <div class="col-lg-7">
+                        <iframe src="@embedUrl" class="map-frame" loading="lazy"></iframe>
+
+                        @{
+                            // 👉 Use Place Name instead of coordinates for showing LOCATION NAME
+                            var searchText = $"{Place.Name} {Place.Location}";
+                            var encodedText = Uri.EscapeDataString(searchText);
+                        }
+
+                        <a href="https://www.google.com/maps/search/?api=1&query=@encodedText"
+                           target="_blank"
+                           class="btn btn-outline-primary btn-sm mt-2">
+                            View on Map
+                        </a>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">Location not available</p>
+            }
+        </div>
+
+
+        <!-- ================= TRAVEL OPTIONS ================= -->
+        <div class="card shadow-sm p-4 mt-4 mb-5 tour-card" style="background: linear-gradient(180deg,#ffffff,#f8fbff); border-left:5px solid #007bff;">
+
+            <h4 class="section-title border-bottom pb-2 mb-3">
+                <i class="fa-solid fa-route me-2"></i> Travel Options
+            </h4>
+
+            @if (Place.TravelOptions != null && Place.TravelOptions.Any())
+            {
+                <div class="row mt-3">
+
+                    @foreach (var item in Place.TravelOptions)
+                    {
+                        var travel = item.Content as TravelOption;
+
+                        if (travel != null)
+                        {
+                            string iconClass = "fa-solid fa-route"; // default
+
+                            if (!string.IsNullOrEmpty(travel.TransportType))
+                            {
+                                var type = travel.TransportType.ToLower();
+
+                                if (type.Contains("train") || type.Contains("rail"))
+                                    iconClass = "fa-solid fa-train";
+                                else if (type.Contains("flight") || type.Contains("air") || type.Contains("plane"))
+                                    iconClass = "fa-solid fa-plane";
+                                else if (type.Contains("bus"))
+                                    iconClass = "fa-solid fa-bus";
+                                else if (type.Contains("car") || type.Contains("road"))
+                                    iconClass = "fa-solid fa-car";
+                                else if (type.Contains("ship") || type.Contains("water"))
+                                    iconClass = "fa-solid fa-ship";
+                            }
+
+                            <div class="col-md-4 mb-3">
+                                <div class="travel-card">
+
+                                    <div class="travel-icon">
+                                        <i class="@iconClass"></i>
+                                    </div>
+
+                                    <h6 class="fw-bold mt-2">
+                                        @travel.TransportType
+                                    </h6>
+
+                                    <p class="text-muted mb-0">
+                                        ⏱ Estimated Time: @travel.EstimatedTime
+                                    </p>
+
+                                </div>
+                            </div>
+                        }
+                    }
+
+                </div>
+            }
+            else
+            {
+                <p class="text-muted">No travel information available.</p>
+            }
+
+        </div>
+
+
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <h3 class="text-danger">Tourist Place data not found.</h3>
+    </div>
+}
+
+ @section Scripts {
+
+    <script>
+        function openImage(src, images) {
+
+            const modal = document.getElementById("imgModal");
+            const modalImg = document.getElementById("modalImg");
+            const thumbs = document.getElementById("modalThumbs");
+
+            if (!modal || !modalImg || !thumbs) return;
+
+            modal.style.display = "block";
+            document.body.style.overflow = "hidden";
+
+            modalImg.src = src;
+            thumbs.innerHTML = "";
+
+            if (images && images.length) {
+                images.forEach(img => {
+
+                    const t = document.createElement("img");
+                    t.src = img;
+                    t.style.height = "60px";
+                    t.style.margin = "5px";
+                    t.style.opacity = (img === src) ? "1" : "0.5";
+                    t.style.cursor = "pointer";
+                    t.style.borderRadius = "6px";
+
+                    t.onclick = function (e) {
+                        e.stopPropagation();
+                        modalImg.src = img;
+
+                        document.querySelectorAll("#modalThumbs img")
+                            .forEach(x => x.style.opacity = "0.5");
+
+                        t.style.opacity = "1";
+                    };
+
+                    thumbs.appendChild(t);
+                });
+            }
+        }
+
+        function closeImage(e) {
+            if (e) e.stopPropagation();
+
+            const modal = document.getElementById("imgModal");
+            modal.style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    </script>
+
+ 
+ }

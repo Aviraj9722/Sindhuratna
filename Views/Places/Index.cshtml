@@ -84,16 +84,21 @@
                  data-name="@obj.PlaceName"
                  data-fee="@obj.EntryFee">
 
-                <div class="col-md-2 fw-semibold">
-                    <i class="fa-solid fa-landmark text-primary"></i>
-                    @obj.PlaceName
+                <div class="col-md-2">
                     <img src="@obj.Images?.FirstOrDefault()?.LocalCrops.Src"
                          class="img-fluid rounded shadow-sm place-thumb"
                          alt="@obj.PlaceName">
                 </div>
 
                 <div class="col-md-2 small text-muted">
-                    @obj.ShortDescription
+                    <div class="fw-semibold text-dark mb-1">
+                        <i class="fa-solid fa-landmark me-1 text-primary"></i>
+                        @obj.PlaceName
+                    </div>
+
+                    <div>
+                        @obj.ShortDescription
+                    </div>
                 </div>
               
 

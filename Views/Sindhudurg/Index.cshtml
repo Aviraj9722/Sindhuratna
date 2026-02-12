@@ -40,6 +40,73 @@
             transform: scale(1.12);
             filter: brightness(1.15);
         }
+
+    /* ================= IMAGE MODAL CLOSE BUTTON ================= */
+
+    /* ===== IMAGE MODAL SAFE FIT ===== */
+
+    .modal-dialog {
+        max-width: 90vw;
+    }
+
+ /*    .modal-content {
+        background: transparent;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+ */
+    /* IMAGE NEVER EXCEEDS SCREEN */
+    /* FULLSCREEN MODAL CONTAINER */
+    .img-modal {
+        display: none;
+        position: fixed; /* KEY: makes it fullscreen */
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.9);
+        z-index: 999999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* IMAGE INSIDE MODAL */
+    .modal-img {
+        max-width: 95vw;
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: 10px;
+    }
+
+    .close-btn {
+        position: fixed; /* FIX: stick to screen, not image */
+        right: 22px;
+        font-size: 40px;
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 1000001;
+        background: rgba(0,0,0,0.55);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+    }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.08);
+        }
+
+
+   
+
+
 </style>
 
 @if (districtPage != null)
@@ -367,31 +434,42 @@
     </div>
 
     <!-- Full Image Modal -->
-    <div class="modal fade" id="imageModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content bg-transparent border-0">
-                <img id="modalImage"
-                     class="img-fluid rounded shadow-lg"
-                     src="" />
+        <div id="imgModal" class="img-modal" onclick="closeImage()">
+            <span class="close-btn" onclick="closeImage(event)">&times;</span>
+
+            <div class="modal-content-wrapper" onclick="event.stopPropagation()">
+                <img id="modalImg" class="modal-img" />
+                <div class="modal-thumbs" id="modalThumbs"></div>
             </div>
         </div>
-    </div>
+
+
     </section>
 
    
 
 }
 
-@section Scripts{
-
+@section Scripts {
     <script>
+
         document.querySelectorAll('.zoom-image').forEach(img => {
             img.addEventListener('click', function () {
+
                 const fullImg = this.getAttribute('data-full');
-                document.getElementById('modalImage').src = fullImg;
-                var modal = new bootstrap.Modal(document.getElementById('imageModal'));
-                modal.show();
+
+                // SHOW modal
+                document.getElementById("imgModal").style.display = "flex";
+
+                // SET image
+                document.getElementById("modalImg").src = fullImg;
             });
         });
+
+        function closeImage(event) {
+            if (event) event.stopPropagation();
+            document.getElementById("imgModal").style.display = "none";
+        }
+
     </script>
 }
