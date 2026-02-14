@@ -168,6 +168,101 @@
         }
       
 
+
+        /* ===== PREMIUM FOOTER ===== */
+        /* ===== PREMIUM FOOTER BASE ===== */
+        .footer-premium {
+            background: linear-gradient(160deg, #1c2731, #0f1720);
+            border-top: 3px solid #d4af37;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Wave Top */
+        .footer-wave {
+            height: 40px;
+            background: radial-gradient(circle at 50% -20%, #d4af37 5%, transparent 60%);
+            opacity: 0.25;
+        }
+
+        /* Headings */
+        .footer-heading {
+            color: #f1c76b;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Links */
+        .footer-links li {
+            margin-bottom: 6px;
+        }
+
+        .footer-links a {
+            color: #cbd5dc;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+            .footer-links a:hover {
+                color: #ffffff;
+                padding-left: 6px;
+            }
+
+        /* Contact Icons */
+        .footer-premium i {
+            color: #f1c76b;
+            transition: 0.3s;
+        }
+
+        .footer-premium p:hover i {
+            transform: scale(1.15);
+        }
+
+        /* Divider */
+        .footer-divider {
+            border-color: rgba(255,255,255,0.08);
+            margin: 20px 0;
+        }
+
+        /* Emergency Box */
+        .emergency-box {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        /* Social */
+        .social-row i {
+            margin: 0 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+            .social-row i:hover {
+                transform: translateY(-2px);
+                color: #ffd369;
+            }
+
+        /* Bottom */
+        .footer-bottom {
+            color: #9fb0bd;
+            font-size: 13px;
+        }
+
+        /* Mobile */
+        @@media(max - width:768px) {
+            .footer-heading
+
+        {
+            margin-top: 10px;
+        }
+
+        }
     </style>
 </head>
 
@@ -345,54 +440,91 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer bg-dark text-white pt-4 pb-2 mt-4">
-        <div class="container">
-            <div class="row gy-3 text-center text-md-start">
+    <footer class="footer-premium text-white mt-5">
 
-                <!-- Logo + Title -->
-                <div class="col-12 col-md-4 d-flex align-items-center justify-content-center justify-content-md-start">
-                    <img src="@homePage.Logo.LocalCrops.Src" class="footer-logo me-2" alt="Logo" width="100px">
-                    <span class="fw-bold footer-title">@homePage.Title</span>
-                  
+        <!-- Top Wave -->
+        <div class="footer-wave"></div>
+
+        <div class="container pt-5 pb-3">
+
+            <div class="row gy-4 text-center text-md-start">
+
+                <!-- Column 1 -->
+                <div class="col-md-3">
+                    <h6 class="footer-heading">हॉटेल्स</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">साई हॉटेल</a></li>
+                        <li><a href="#">संगम हॉटेल</a></li>
+                        <li><a href="#">सयाजी हॉटेल</a></li>
+                        <li><a href="#">ब्ल्यू डायमंड</a></li>
+                    </ul>
                 </div>
 
-                <!-- Footer Navigation -->
-                @foreach (var group in homePage.FooterLinks)
-                {
-                    var block = group.Content as FooterLink;
-                    var links = block?.Links;
+                <!-- Column 2 -->
+                <div class="col-md-3">
+                    <h6 class="footer-heading">सिंधुदुर्गमधील शिफारस केलेली ठिकाणे</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">गणपतीपुळे मंदिर</a></li>
+                        <li><a href="#">सिंधुदुर्ग किल्ला</a></li>
+                    </ul>
+                </div>
 
-                    <div class="col-12 col-md-2">
-                        <h6 class="fw-bold mb-2">@block.GroupName</h6>
-                        <ul class="list-unstyled footer-links">
-                            @foreach (var item in links)
-                            {
-                                <li>
-                                    <a href="@item.Url" class="text-white text-decoration-none">
-                                        @item.Name
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                }
+                <!-- Column 3 -->
+                <div class="col-md-3">
+                    <h6 class="footer-heading">रत्नागिरीमधील शिफारस केलेली ठिकाणे</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="#">रत्नदुर्ग किल्ला</a></li>
+                        <li><a href="#">जयगड किल्ला</a></li>
+                        <li><a href="#">गणपतीपुळे बीच</a></li>
+                    </ul>
+                </div>
 
                 <!-- Contact -->
-                <div class="col-12 col-md-2">
-                    <h6 class="fw-bold mb-2">Contact</h6>
-                    <p class="small m-0">info@districtinfo.com</p>
-                    <p class="small m-0">+91 12345 67890</p>
+                <div class="col-md-3">
+                    <h6 class="footer-heading">Contact</h6>
+
+                    <p class="mb-1">
+                        <i class="fa-solid fa-envelope me-2"></i> info@districtinfo.com
+                    </p>
+
+                    <p class="mb-1">
+                        <i class="fa-solid fa-phone me-2"></i> +91 12345 67890
+                    </p>
+
+                    <p class="mb-2">
+                        <i class="fa-solid fa-location-dot me-2"></i> Maharashtra, India
+                    </p>
+
+                    <!-- Emergency -->
+                    <div class="emergency-box">
+                        🚨 Emergency: <strong>112</strong>
+                    </div>
+
                 </div>
 
             </div>
 
-            <hr class="footer-divider my-3">
+            <hr class="footer-divider">
 
-            <p class="text-center small m-0">
-                © @DateTime.Now.Year Sindhuratn Portal – All Rights Reserved   Powered By. Aviraj Innovations Pvt. Ltd. Karad
-            </p>
+            <!-- Social -->
+            <div class="social-row text-center mb-2">
+                <i class="fab fa-facebook-f"></i>
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-youtube"></i>
+                <i class="fab fa-twitter"></i>
+            </div>
+
+            <!-- Bottom -->
+            <div class="footer-bottom text-center">
+                © @DateTime.Now.Year <strong>Sindhuratna Tourism Portal</strong><br>
+                Government Information Website | Made with ❤️ in Konkan
+            </div>
+
         </div>
     </footer>
+
+
+
 
 
     <!-- GLOBAL IMAGE LIGHTBOX -->
