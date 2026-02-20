@@ -268,9 +268,6 @@
 
 <body >
 
-
- 
-
     <span class="watermark-bg"
           style="background-image:url('@homePage.Logo?.LocalCrops.Src')"></span>
 
@@ -449,36 +446,25 @@
 
             <div class="row gy-4 text-center text-md-start">
 
-                <!-- Column 1 -->
-                <div class="col-md-3">
-                    <h6 class="footer-heading">हॉटेल्स</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#">साई हॉटेल</a></li>
-                        <li><a href="#">संगम हॉटेल</a></li>
-                        <li><a href="#">सयाजी हॉटेल</a></li>
-                        <li><a href="#">ब्ल्यू डायमंड</a></li>
-                    </ul>
-                </div>
+                @foreach (var item in homePage.FooterLinks)
+                {
+                    var ft = item.Content as FooterLink;
 
-                <!-- Column 2 -->
-                <div class="col-md-3">
-                    <h6 class="footer-heading">सिंधुदुर्गमधील शिफारस केलेली ठिकाणे</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#">गणपतीपुळे मंदिर</a></li>
-                        <li><a href="#">सिंधुदुर्ग किल्ला</a></li>
-                    </ul>
-                </div>
+                    <div class="col-md-3">
+                        <h6 class="footer-heading">@ft.GroupName</h6>
+                        <ul class="list-unstyled footer-links">
+                            @foreach (var link in ft.Links)
+                            {
+                                <li><a href="@link.Url">@link.Name</a></li>
+                            }
+                          
+                           
+                        </ul>
+                    </div>
+                }
+              
 
-                <!-- Column 3 -->
-                <div class="col-md-3">
-                    <h6 class="footer-heading">रत्नागिरीमधील शिफारस केलेली ठिकाणे</h6>
-                    <ul class="list-unstyled footer-links">
-                        <li><a href="#">रत्नदुर्ग किल्ला</a></li>
-                        <li><a href="#">जयगड किल्ला</a></li>
-                        <li><a href="#">गणपतीपुळे बीच</a></li>
-                    </ul>
-                </div>
-
+            
                 <!-- Contact -->
                 <div class="col-md-3">
                     <h6 class="footer-heading">Contact</h6>
