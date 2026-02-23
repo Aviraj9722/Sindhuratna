@@ -281,7 +281,57 @@
         min-height: 60px;
     }
 
+    /* ============================= */
+    /* SCHEME SECTION ONLY STYLING  */
+    /* ============================= */
 
+    .scheme-section .scheme-card {
+        border-radius: 12px;
+        padding: 14px;
+        transition: 0.2s ease;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        border-left: 4px solid transparent;
+    }
+
+        .scheme-section .scheme-card:hover {
+            transform: translateY(-3px);
+        }
+
+    /* 1st scheme */
+    .scheme-section .col-sm-12:nth-child(6n+1) .scheme-card {
+        background: #e3f2fd;
+        border-left-color: #1976d2;
+    }
+
+    /* 2nd scheme */
+    .scheme-section .col-sm-12:nth-child(6n+2) .scheme-card {
+        background: #e8f5e9;
+        border-left-color: #2e7d32;
+    }
+
+    /* 3rd scheme */
+    .scheme-section .col-sm-12:nth-child(6n+3) .scheme-card {
+        background: #fff3e0;
+        border-left-color: #ef6c00;
+    }
+
+    /* 4th scheme */
+    .scheme-section .col-sm-12:nth-child(6n+4) .scheme-card {
+        background: #fce4ec;
+        border-left-color: #c2185b;
+    }
+
+    /* 5th scheme */
+    .scheme-section .col-sm-12:nth-child(6n+5) .scheme-card {
+        background: #f3e5f5;
+        border-left-color: #6a1b9a;
+    }
+
+    /* 6th scheme */
+    .scheme-section .col-sm-12:nth-child(6n+6) .scheme-card {
+        background: #ede7f6;
+        border-left-color: #4527a0;
+    }
 
 </style>
 <script>
@@ -296,6 +346,7 @@
         : "Read Less";
         });
 </script>
+
 <div class="row">
     <div class="header-wrapper">
   <div class="label-arrow">
@@ -376,11 +427,12 @@
 
         </div>
         <hr />
+        
         <h3 class="text-primary fw-bold mb-4" style="border-bottom: 1px solid #efefef;padding-bottom: 7px;color:rgb(49 118 219) !important;">
             <i class="fa-solid fa-hand-holding-heart me-2"></i> वैशिष्ट्यपूर्ण योजना
         </h3>
 
-        <div class="row">
+        <div class="row scheme-section">
             @foreach (var block in homePage.SelectSchemes)
             {
                 var schemeItem = block.Content.Value<IPublishedElement>("selectScheme");
@@ -394,7 +446,7 @@
                     var audiences = obj?.TargetAudience?.ToList() ?? new List<string>();
 
                     <div class="col-sm-12 col-md-12 col-lg-12 mb-4">
-                        <div class="card tourism-card h-100 shadow-sm border-0">
+                        <div class="card tourism-card scheme-card h-100 shadow-sm border-0">
                             <div class="card-body d-flex flex-column">
 
 
@@ -442,7 +494,7 @@
                                     }
 
                                     @* Read More *@
-                                    <a href="@obj?.ApplyLink"
+                                    <a href="/scheme-detail?id=@obj.Id" 
                                        class="btn btn-sm btn-outline-primary">
                                         <i class="fa-solid fa-circle-info me-1"></i> अधिक वाचा
                                     </a>
@@ -456,6 +508,7 @@
             }
 
         </div>
+
     </div>
 
     <div class="col-sm-8">
@@ -482,9 +535,12 @@
 
                                 @if (!string.IsNullOrEmpty(firstImage))
                                 {
+                                    <a href="/hotel-detail?id=@obj.Id" class="text-dark text-decoration-none">
+
                                     <img src="@firstImage"
                                          class="card-img-top place-img"
                                          alt="@obj?.HotelName" />
+                                    </a>
                                 }
 
                                 <div class="card-body d-flex flex-column">
@@ -495,8 +551,9 @@
                                             Hotel
                                         </span>
                                         <h5 class="card-title fw-semibold">
-
+                                            <a href="/hotel-detail?id=@obj.Id" class="text-dark text-decoration-none">
                                             @obj?.HotelName
+                                            </a>
                                         </h5>
 
                                         @if (!string.IsNullOrEmpty(obj?.Address))
@@ -566,16 +623,20 @@
                         @* Image Box *@
                         @if (!string.IsNullOrEmpty(firstImage))
                         {
+                            <a href="/place-detail?id=@obj.Id" class="text-dark text-decoration-none">
                             <img src="@firstImage"
                                  class="card-img-top place-img"
                                  alt="@obj?.PlaceName" style="width:100%;height:100px;" />
+                            </a>
                         }
 
                         <div class="card-body d-flex flex-column">
 
                             <div class="place-title mb-2">
                                 <h5 class="card-title text-dark fw-semibold m-0">
+                                    <a href="/place-detail?id=@obj.Id" class="text-dark text-decoration-none">
                                     @obj?.PlaceName
+                                    </a>
                                 </h5>
 
                                 @if (!string.IsNullOrEmpty(obj?.PlaceType))
